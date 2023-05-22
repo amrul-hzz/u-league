@@ -13,15 +13,27 @@ class Pertandingan(models.Model):
     def __str__(self):
         return f'Pertandingan {self.start_datetime} di {self.stadium}'
 
-def validate_jadwal_tim_wasit(value):
-    pertandingan = Pertandingan.objects.filter(waktu=value)
-    if pertandingan.exists():
-        raise ValidationError(_('Tim atau wasit sudah dijadwalkan pada pertandingan lain.'))
+class Wasit(models.Model):
+    id_wasit = models.AutoField(primary_key=True)
+    lisensi = models.CharField(max_length=100)
 
 class Tim(models.Model):
-    waktu_pertandingan = models.DateTimeField(validators=[validate_jadwal_tim_wasit])
-    # Bidang-bidang lain untuk model Tim
+    nama_tim = models.CharField(max_length=100, unique=True)
+    universitas = models.CharField(max_length=100)
 
-class Wasit(models.Model):
-    waktu_pertandingan = models.DateTimeField(validators=[validate_jadwal_tim_wasit])
-    # Bidang-bidang lain untuk model Wasit
+class Stadium(models.Model):
+    id_stadium = models.AutoField(primary_key=True)
+    nama = models.CharField(max_length=100)
+    alamat = models.CharField(max_length=200)
+    kapasitas = models.PositiveIntegerField()
+
+class TimPertandingan(models.Model):
+    id_pertandingan = models.ForeignKey(Pertandingan, on_delete=models.CASCADE)
+    id_tim_1 = models.ForeignKey(Tim, on_delete=models.CASCADE)
+    skor = models.IntegerField()
+    # Bidang-bidang lain untuk model TimPertandingan
+
+class WasitBertugas(models.Model):
+    id_pertandingan = models.ForeignKey(Pertandingan, on_delete=models.CASCADE)
+    wasit = models.ForeignKey(Wasit, on_delete=models.CASCADE)
+    posisi_wasit = models.CharField(max_length=100)
