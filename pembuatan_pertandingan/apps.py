@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MengelolaTimConfig(AppConfig):
+class PembuatanPertandinganConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mengelola_tim'
+    name = 'pembuatan_pertandingan'

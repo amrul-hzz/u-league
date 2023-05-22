@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'example_app',
     'sepakbola',
     'mengelola_tim',
+    'pembuatan_pertandingan',
 ]
 
 MIDDLEWARE = [
