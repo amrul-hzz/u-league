@@ -4,12 +4,14 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Pertandingan(models.Model):
-    waktu = models.DateTimeField()
+    id_pertandingan = models.AutoField(primary_key=True)
+    start_datetime = models.DateTimeField()
+    end_datetime = models.DateTimeField()
     stadium = models.CharField(max_length=100)
     # Bidang-bidang lain yang Anda perlukan untuk model Pertandingan
 
     def __str__(self):
-        return f'Pertandingan {self.waktu} di {self.stadium}'
+        return f'Pertandingan {self.start_datetime} di {self.stadium}'
 
 def validate_jadwal_tim_wasit(value):
     pertandingan = Pertandingan.objects.filter(waktu=value)
