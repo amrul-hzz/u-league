@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+def mengelola_tim(request):
+    return render(request, "pendaftaran_tim.html")
+
 def pendaftaran_tim(request):
     return render(request, "pendaftaran_tim.html")
 
