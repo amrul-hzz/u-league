@@ -1,31 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Pilih Pertandingan</title>
-</head>
-<body>
-    <iframe src="../navbar/navbar_logged_in_panitia.html" frameborder="0" scrolling="no" width="100%" height="50"></iframe>
+{% extends 'base.html' %}
 
-    <h1>Pilih Pertandingan</h1>
+{% block content %}
 
-	<table border="1">
-		<thead>
-			<tr>
-				<th>Tim Bertanding</th>
-				<th>Stadium</th>
-				<th>Tanggal dan Waktu</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>The Vipers vs The Lions</td>
-				<td>Wembley Stadium</td>
-				<td>[]</td>
-				<td><button onclick="window.location.href='RapatPage.html'">Mulai Rapat</button></td>
-			</tr>
-			
-		</tbody>
-	</table>
+<script>
+	function redirectPage() {
+		window.location.href = "/rapat/rapat";
+	}
+</script>
+
+<body class="bg-gray-100">
+	<div class="container mx-auto my-8">
+		<h1 class="flex justify-center text-3xl font-bold mb-4">Pilih Pertandingan</h1>
+		<table class="w-full border-collapse border border-gray-300">
+			<thead>
+				<tr class="bg-gray-200 text-gray-700">
+					<th class="py-2 px-4 border">Tim Bertanding</th>
+					<th class="py-2 px-4 border">Stadium</th>
+					<th class="py-2 px-4 border">Tanggal dan Waktu</th>
+					<th class="py-2 px-4 border">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for pertandingan in pertandingan_list %}
+				<tr>
+					<td class="py-2 px-4 border">{{ pertandingan.tim_bertanding }}</td>
+					<td class="py-2 px-4 border">{{ pertandingan.stadium }}</td>
+					<td class="py-2 px-4 border">{{ pertandingan.tanggal_dan_waktu }}</td>
+					<td class="flex justify-center py-2 px-4 border-b">
+						<a href="{% url 'rapat:rapat_pertandingan' pertandingan%}">
+							<button class="bg-blue-500 hover:bg-blue-700 text-blue font-bold py-2 px-4 rounded-full">Mulai Rapat</button>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </body>
-</html>
+
+{% endblock content %}
