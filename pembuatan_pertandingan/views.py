@@ -1,28 +1,41 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Pertandingan
+from django.http import JsonResponse
+from django.db import connection
 
-def list_pertandingan(request):
-    pertandingan = Pertandingan.objects.all()
-    return render(request, 'list_pertandingan.html', {'pertandingan': pertandingan})
+def get_semua_pertandingan(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM PERTANDINGAN")
+        data = cursor.fetchall()
+    
+    # Process the retrieved data as per your needs
+    # For example, you can convert it to a list of dictionaries
+    result = []
+    for i in range(len(data)):
+        result.append(
+            data[i]
+        )
 
-def buat_pertandingan(request):
-    # Implementasikan logika untuk pembuatan pertandingan
-    # Misalnya, Anda dapat menggunakan perintah Pertandingan.objects.create()
+    return JsonResponse(result, safe=False)
 
-    return render(request, 'buat_pertandingan.html')
+def is_panitia(request, id):
+    # Implementasikan logika untuk mengecek apakah user adalah panitia
+    # Misalnya, Anda dapat menggunakan perintah request.user.groups.filter(name='panitia').exists()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM PANITIA WHERE ID = %s", [id])
+        data = cursor.fetchall()
 
-def batalkan_peminjaman(request, waktu, stadium):
-    try:
-        pertandingan = Pertandingan.objects.get(waktu=waktu, stadium=stadium)
-        # Logika pembatalan peminjaman
-        # Misalnya, Anda dapat menghapus entri peminjaman dengan perintah pertandingan.delete()
-        return render(request, 'berhasil.html')  # Menampilkan halaman berhasil
-    except Pertandingan.DoesNotExist:
-        return render(request, 'gagal.html')  # Menampilkan halaman gagal
+    if data != null:
+        return True
+    else:
+        return False
 
-def validate_jadwal_tim_wasit(value):
+
+def buat_pertandingan(request, id):
+    if is_panitia(id):
+        # validate jadwal tim dan wasit sebelum mebuat pertandingan
+        return true
+
+def validate_jadwal_tim(value):
     pertandingan = Pertandingan.objects.filter(waktu=value)
-    if pertandingan.exists():
-        raise ValidationError(_('Tim atau wasit sudah dijadwalkan pada pertandingan lain.'))
