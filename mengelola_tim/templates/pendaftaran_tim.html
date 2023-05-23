@@ -15,7 +15,7 @@
         text-align: center;
         margin-top: 50px;
     }
-    .form-container {
+    form {
         width: 50%;
         margin: 0 auto;
         background-color: #fff;
@@ -51,19 +51,27 @@
 
 <body>
     <h1>FORM REGISTRASI</h1> <br>
-    <div class="form-container">
+    <form action="/mengelolatim/create_tim/" method="post">
+        {% csrf_token %}
         <label>Nama Tim:</label>
-        <input type="text" id="nama_tim" name="Nama Tim">
+        <input type="text" id="nama_tim" name="nama_tim">
         <br>
         <br>
         <label>Nama Universitas:</label>
-        <input type="text" id="nama_universitas" name="Nama Universitas">
+        <input type="text" id="nama_universitas" name="nama_universitas">
         <br>
         <br>
         <div style="display: flex; align-items: center; justify-content: center;">
             <input type="submit" value="DAFTAR">
         </div>
-    </div>
+    </form>
+    {% if messages %}
+    <ul class="text-sm">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 </body>
 
 {% endblock content %}

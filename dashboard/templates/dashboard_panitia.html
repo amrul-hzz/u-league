@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Dashboard Panitia</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .rapat {
+      text-align: center;
+      font-weight: bold;
+    }
+    .belum-ada {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Dashboard Panitia</h1>
+        <h2>Informasi Profil</h2>
+        <table>
+          <tr>
+            <th>Nama Depan</th>
+            <td>John</td>
+          </tr>
+          <tr>
+            <th>Nama Belakang</th>
+            <td>Doe</td>
+          </tr>
+          <tr>
+            <th>Nomor HP</th>
+            <td>081234567890</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>johndoe@example.com</td>
+          </tr>
+          <tr>
+            <th>Alamat</th>
+            <td>Jalan Pahlawan No. 123</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>Aktif</td>
+          </tr>
+          <tr>
+            <th>Jabatan</th>
+            <td>Panitia</td>
+          </tr>
+        </table>
+        <h2>Daftar Rapat</h2>
+        <table>
+          <tr>
+            <th>Tanggal</th>
+            <th>Waktu</th>
+            <th>Lokasi</th>
+            <th>Agenda</th>
+          </tr>
+          <tr>
+            <td colspan="4" class="belum-ada">Belum Ada Rapat</td>
+          </tr>
+        </table>
+    </div>
+</body>
+
+{% endblock content %}

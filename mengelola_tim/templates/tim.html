@@ -38,7 +38,7 @@
 </style>
 
 <body>
-    <h1>Tim</h1>
+    <h1>{{nama_tim}} - {{nama_univ}}</h1>
     <h2>Pemain</h2>
     <table border="1">
         <tr>
@@ -51,6 +51,25 @@
             <th>Jenjang</th>
             <th>Action</th>
         </tr>
+        {% for i in pemain %}
+        <tr>
+            <td>{{i.nama_pemain}}</td>
+            <td>{{i.no_hp}}</td>
+            <td>{{i.tanggal_lahir}}</td>
+            <td>{{i.is_captain}}</td>
+            <td>{{i.posisi}}</td>
+            <td>{{i.npm}}</td>
+            <td>{{i.jenjang}}</td>
+            <td>
+                {% if i.is_captain == True %}
+                <button>Delete</button>
+                {% else %}
+                <button>Make Captain</button>
+                <button>Delete</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
     </table>
     <h2>Pelatih</h2>
     <table border="1">
@@ -62,6 +81,18 @@
             <th>Spesialisasi</th>
             <th>Action</th>
         </tr>
+        {% for i in pelatih %}
+        <tr>
+            <td>{{i.nama_pelatih}}</td>
+            <td>{{i.no_hp}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.alamat}}</td>
+            <td>{{i.spesialisasi}}</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
     </table> <br>
     <br>
     <div class="btn-container">

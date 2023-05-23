@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Dashboard Manajer</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .belum-ada {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Dashboard Manajer</h1>
+        <h2>Informasi Profil</h2>
+        
+        <table>
+            <tr>
+                <th>Nama Depan</th>
+                <td>Shaylah</td>
+              </tr>
+              <tr>
+                <th>Nama Belakang</th>
+                <td>Prescod</td>
+              </tr>
+              <tr>
+                <th>Nomor HP</th>
+                <td>392-528-5052</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>spescod1s@last.fm</td>
+              </tr>
+              <tr>
+                <th>Alamat</th>
+                <td>0 Village Road</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>Tendik</td>
+              </tr>
+        </table>
+    </div>  
+
+    <div class="container">
+        <h2>Informasi Tim</h2>
+
+        <table>
+            <tr>
+                <th>Nama Tim</th>
+                <td>Tim A</td>
+              </tr>
+              <tr>
+                <th>Anggota 1</th>
+                <td>John Doe</td>
+              </tr>
+              <tr>
+                <th>Anggota 2</th>
+                <td>Sarah Lee</td>
+              </tr>
+              <tr>
+                <th>Anggota 3</th>
+                <td>David Kim</td>
+              </tr>
+        </table>
+    </div>
+</body>
+
+{% endblock content %}
