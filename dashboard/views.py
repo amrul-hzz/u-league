@@ -42,6 +42,10 @@ def show_dashboard(request):
     return render(request, "dashboard_manajer.html")
 
 def show_dashboard_manajer(request):
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    SELECT *
+    """)
     return render(request, 'dashboard_manajer.html')
 
 def show_dashboard_panitia(request):
