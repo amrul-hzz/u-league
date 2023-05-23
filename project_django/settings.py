@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'sepakbola',
     'mengelola_tim',
     'pembuatan_pertandingan',
-    'mulai_rapat'
+    'mulai_rapat',
     'login',
     'dashboard',
 

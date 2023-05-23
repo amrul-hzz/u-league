@@ -1,9 +1,6 @@
 from django.shortcuts import render
-from django.shortcuts import render
 from django.db import connection
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.db import connection
 
 def pilih_pertandingan(request):
     cursor = connection.cursor()
