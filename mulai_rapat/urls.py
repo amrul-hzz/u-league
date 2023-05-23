@@ -5,4 +5,5 @@ app_name = "mulai_rapat"
 urlpatterns = [
     path('', pilih_pertandingan, name=''),
     path('rapat_pertandingan/<str:pertandingan>/', rapat_pertandingan, name='rapat_pertandingan'),
+    path('create_rapat/<path:pertandingan>', create_rapat, name='create_rapat'),
 ]

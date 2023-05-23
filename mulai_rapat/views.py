@@ -71,24 +71,29 @@ def rapat_pertandingan(request, pertandingan):
     
     return render(request, "rapat_pertandingan.html", context)
 
-# def create_rapat(request, pertandingan):
-#     isi_rapat = request.POST.get('isi_rapat')
+def create_rapat(request, pertandingan):
+    isi_rapat = request.POST.get('isi_rapat')
+    #debug console isi_rapat
+    # print(isi_rapat)
 
-#     # convert string to dict
-#     dict_data = eval(pertandingan)
+    # convert string to dict
+    dict_data = eval(pertandingan)
 
-#     cursor = connection.cursor()
-#     username = request.COOKIES['username']
-#     cursor.execute(f'''
-#         SELECT id_panitia
-#         FROM panitia
-#         WHERE username = '{username}'
-#     ''')
-#     id_panitia = cursor.fetchone()[0]
+    cursor = connection.cursor()
+    # error karena blm urus cookiesnya
+    username = request.COOKIES['username']
+    cursor.execute(f'''
+        SELECT id_panitia
+        FROM panitia
+        WHERE username = '{username}'
+    ''')
+    id_panitia = cursor.fetchone()[0]
 
-#     cursor.execute(f'''
-#         INSERT INTO RAPAT (id_pertandingan, perwakilan_panitia, manajer_tim_a, manajer_tim_b, isi_rapat)
-#         VALUES ('{dict_data['id_pertandingan']}', '{id_panitia}', '{dict_data['id_manajer_tim_a']}', '{dict_data['id_manajer_tim_b']}', '{isi_rapat}')
-#     ''')
-
-#     return HttpResponseRedirect('/dashboard/')
+    cursor.execute(f'''
+        INSERT INTO RAPAT (id_pertandingan, perwakilan_panitia, manajer_tim_a, manajer_tim_b, isi_rapat)
+        VALUES ('{dict_data['id_pertandingan']}', '{id_panitia}', '{dict_data['id_manajer_tim_a']}', '{dict_data['id_manajer_tim_b']}', '{isi_rapat}')
+    ''')
+    
+    return HttpResponseRedirect('/mulai_rapat/')
+    #kalo dashboard panitia udah selesai return yang ini 
+    # return HttpResponseRedirect('/dashboard/')
