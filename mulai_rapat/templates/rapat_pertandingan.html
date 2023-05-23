@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block content %} {% include 'navbar_panitia.html'
-%}
+{% extends 'base.html' %} 
+{% block content %} 
+{% include 'navbar_panitia.html'%}
+
+
 <head>
   <meta charset="UTF-8" />
   <title>Form Input Rapat Pertandingan Sepakbola</title>
@@ -20,7 +23,7 @@
       method="post"
       action="{% url 'mulai_rapat:create_rapat' pertandingan %}"
     >
-      <!-- todo: tambahkan action -->
+
       {% csrf_token %}
       <div class="flex flex-wrap mt-16 mb-16">
         <label class="w-full mb-2" for="isi-rapat">Isi Rapat:</label>
