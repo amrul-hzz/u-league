@@ -15,6 +15,3 @@ def daftar_pemain(request):
 
 def daftar_pelatih(request):
     return render(request, "daftar_pelatih.html")
-
-def daftar_tim(request):
-    
