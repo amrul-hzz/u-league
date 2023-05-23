@@ -24,4 +24,5 @@ urlpatterns = [
     path('mulairapat/', include('mulai_rapat.urls')),
     path('login/', include('login.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
 ]

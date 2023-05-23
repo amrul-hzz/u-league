@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'mulai_rapat',
     'login',
     'dashboard',
+    'peminjaman_stadium',
 
 ]
 
