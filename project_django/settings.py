@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'mengelola_tim',
     'pembuatan_pertandingan',
     'mulai_rapat'
+    'login',
+    'dashboard',
+
 ]
 
 MIDDLEWARE = [
