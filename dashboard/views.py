@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
+from django.http import JsonResponse
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
@@ -36,3 +37,12 @@ def show_dashboard_penonton(request):
         response['status'] = data['status']
 
     return render(request, 'dashboard_penonton.html', response)
+
+def show_dashboard(request):
+    return render(request, "dashboard_manajer.html")
+
+def show_dashboard_manajer(request):
+    return render(request, 'dashboard_manajer.html')
+
+def show_dashboard_panitia(request):
+    return render(request, 'dashboard_panitia.html')
