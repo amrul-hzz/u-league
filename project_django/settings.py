@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'sepakbola',
     'mengelola_tim',
     'pembuatan_pertandingan',
+    'mulai_rapat',
+    'login',
     'dashboard',
+    'peminjaman_stadium',
+
 ]
 
 MIDDLEWARE = [

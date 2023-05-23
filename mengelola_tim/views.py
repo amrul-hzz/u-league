@@ -195,7 +195,6 @@ def show_pemain_null(request):
                     "id_pemain": i[0],
                 }
             )
-    print(pemain[0])
 
     return render(request, "daftar_pemain.html", {
         "pemain": pemain,
@@ -274,7 +273,6 @@ def show_pelatih_null(request):
                 "id_pelatih": result[0],
             }
         )
-    print(pelatih[0])
 
     return render(request, "daftar_pelatih.html", {
         "pelatih": pelatih,

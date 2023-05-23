@@ -21,5 +21,8 @@ urlpatterns = [
     path('', include('example_app.urls')),
     # path('pembuatan_pertandingan/', include('pembuatan_pertandingan.urls')),
     path('mengelolatim/', include('mengelola_tim.urls')),
+    path('mulairapat/', include('mulai_rapat.urls')),
+    path('login/', include('login.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
 ]

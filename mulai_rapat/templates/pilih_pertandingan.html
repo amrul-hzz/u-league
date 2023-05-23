@@ -1,0 +1,46 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% include 'navbar_panitia.html'%}
+<script>
+  function redirectPage() {
+    window.location.href = "/rapat/rapat";
+  }
+</script>
+
+<body class="bg-gray-50">
+  <div class="container mx-auto my-8">
+    <h1 class="flex justify-center text-3xl font-bold mb-4">
+      Pilih Pertandingan
+    </h1>
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-200 text-black-700">
+          <th class="py-2 px-4 border">Tim Bertanding</th>
+          <th class="py-2 px-4 border">Stadium</th>
+          <th class="py-2 px-4 border">Tanggal dan Waktu</th>
+          <th class="py-2 px-4 border">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pertandingan in pertandingan_list %}
+        <tr>
+          <td class="py-2 px-4 border">{{ pertandingan.tim_bertanding }}</td>
+          <td class="py-2 px-4 border">{{ pertandingan.stadium }}</td>
+          <td class="py-2 px-4 border">{{ pertandingan.tanggal_dan_waktu }}</td>
+          <td class="flex justify-center py-2 px-4 border-b">
+            <a href="{% url 'mulai_rapat:rapat_pertandingan' pertandingan%}">
+              <button
+                class="bg-green-500 hover:bg-green-700 text-blue font-bold py-2 px-4 rounded-full"
+              >
+                Mulai Rapat
+              </button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+
+{% endblock content %}
