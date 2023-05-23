@@ -6,15 +6,6 @@ from django.contrib import messages
 def mengelola_tim(request):
     return render(request, "pendaftaran_tim.html")
 
-def tim(request):
-    return render(request, "tim.html")
-
-def daftar_pemain(request):
-    return render(request, "daftar_pemain.html")
-
-def daftar_pelatih(request):
-    return render(request, "daftar_pelatih.html")
-
 def create_tim(request):
     cursor = connection.cursor()
 
@@ -81,6 +72,7 @@ def get_tim(request):
     SELECT *
     FROM PEMAIN
     WHERE nama_tim = '{nama_tim}'
+    ORDER BY id_pemain;
     """)
 
     data_pemain = cursor.fetchall()
@@ -98,6 +90,7 @@ def get_tim(request):
                     "posisi": i[7],
                     "npm": i[8],
                     "jenjang": i[9],
+                    "id_pemain": i[0],
                 }
             )
 
@@ -106,6 +99,7 @@ def get_tim(request):
     SELECT id_pelatih
     FROM PELATIH
     WHERE nama_tim = '{nama_tim}'
+    ORDER BY id_pelatih;
     """)
 
     data_pelatih = cursor.fetchall()
@@ -129,6 +123,7 @@ def get_tim(request):
                 "email": result[4],
                 "alamat": result[5],
                 "spesialisasi": result[7],
+                "id_pelatih": result[0],
             }
         )
 
@@ -139,7 +134,188 @@ def get_tim(request):
         "pelatih": pelatih,
     }) 
 
-# def make_captain(request):
-#     ConnectionRefusedError
+def make_captain(request, id):
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    UPDATE PEMAIN
+    SET IS_CAPTAIN = TRUE
+    WHERE id_pemain = '{id}';
+    """)
 
-# def delete_pemain(request)
+    return redirect("/mengelolatim/")
+
+def delete_pemain(request, id):
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    UPDATE PEMAIN
+    SET nama_tim = null
+    WHERE id_pemain = '{id}';
+
+    UPDATE PEMAIN
+    SET is_captain = false
+    WHERE id_pemain = '{id}';
+    """)
+
+    return redirect("/mengelolatim")
+
+def delete_pelatih(request, id):
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    UPDATE PELATIH
+    SET nama_tim = null
+    WHERE id_pelatih = '{id}'
+    """)
+
+    return redirect("/mengelolatim")
+
+def show_pemain_null(request):
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    SELECT *
+    FROM PEMAIN
+    WHERE nama_tim IS NULL
+    ORDER BY id_pemain;
+    """)
+
+    data_pemain = cursor.fetchall()
+
+    pemain = []
+
+    if data_pemain:
+        for i in data_pemain:
+            pemain.append(
+                {
+                    "nama_pemain": i[2] + " " + i[3],
+                    "no_hp": i[4],
+                    "tanggal_lahir": i[5],
+                    "is_captain": i[6],
+                    "posisi": i[7],
+                    "npm": i[8],
+                    "jenjang": i[9],
+                    "id_pemain": i[0],
+                }
+            )
+    print(pemain[0])
+
+    return render(request, "daftar_pemain.html", {
+        "pemain": pemain,
+    })
+
+def add_pemain(request):
+    print("masuk sini")
+    cursor = connection.cursor()
+    if request.method == "POST":
+        data_pemain = str(request.POST.get("dropdown")).split("-")
+        nama_pemain = str(data_pemain[0]).split(" ")
+        print(data_pemain)
+        print(nama_pemain)
+        nama_depan = nama_pemain[0]
+        nama_belakang = nama_pemain[1]
+        posisi = data_pemain[1]
+        # nama_tim = request.session("nama_tim")
+        print("nama depan: "+nama_depan)
+        print("nama belakang: "+nama_belakang)
+        print("posisi: "+posisi)
+
+        cursor.execute(f"""
+        SELECT id_pemain
+        FROM PEMAIN
+        WHERE nama_depan = '{nama_depan}' AND
+            nama_belakang = '{nama_belakang}';
+        """)
+
+        id_pemain = str(cursor.fetchone()[0])
+        print(id_pemain)
+
+        try:
+            cursor.execute(f"""
+            UPDATE PEMAIN
+            SET nama_tim = 'The Mavericks'
+            WHERE id_pemain = '{id_pemain}';
+            """)
+
+            return redirect("/mengelolatim/")
+        except Exception as e:
+            messages.error(request,e)
+
+    return render(request, "daftar_pemain.html")
+
+def show_pelatih_null(request):
+    print("masuk sini ga")
+    cursor = connection.cursor()
+    cursor.execute(f"""
+    SELECT *
+    FROM PELATIH
+    WHERE nama_tim IS NULL
+    ORDER BY id_pelatih;
+    """)
+
+    data_pelatih = cursor.fetchall()
+
+    pelatih = []
+
+    for i in data_pelatih:
+        cursor.execute(f"""
+        SELECT *
+        FROM NON_PEMAIN
+        JOIN SPESIALISASI_PELATIH ON non_pemain.id = spesialisasi_pelatih.id_pelatih
+        WHERE id = '{i[0]}'
+        """)
+
+        result = cursor.fetchone()
+
+        pelatih.append(
+            {
+                "nama_pelatih": result[1] + " " + result[2],
+                "no_hp": result[3],
+                "email": result[4],
+                "alamat": result[5],
+                "spesialisasi": result[7],
+                "id_pelatih": result[0],
+            }
+        )
+    print(pelatih[0])
+
+    return render(request, "daftar_pelatih.html", {
+        "pelatih": pelatih,
+    })
+
+def add_pelatih(request):
+    cursor = connection.cursor()
+    if request.method == "POST":
+        data_pelatih = str(request.POST.get("dropdown")).split("-")
+        nama_pelatih = str(data_pelatih[0]).split(" ")
+        print(data_pelatih)
+        print(nama_pelatih)
+        nama_depan = nama_pelatih[0]
+        nama_belakang = nama_pelatih[1]
+        spesialisasi = data_pelatih[1]
+        # nama_tim = request.session("nama_tim")
+        print("nama depan: "+nama_depan)
+        print("nama belakang: "+nama_belakang)
+        print("spesialisasi: "+spesialisasi)
+
+        cursor.execute(f"""
+        SELECT id
+        FROM NON_PEMAIN
+        WHERE nama_depan = '{nama_depan}' AND
+            nama_belakang = '{nama_belakang}';
+        """)
+
+        id_pelatih = str(cursor.fetchone()[0])
+        print(id_pelatih)
+
+        try:
+            cursor.execute(f"""
+            UPDATE PELATIH
+            SET nama_tim = 'The Mavericks'
+            WHERE id_pelatih = '{id_pelatih}';
+            """)
+            print("masuk sini")
+
+            return redirect("/mengelolatim/")
+        except Exception as e:
+            print("masuk sini error")
+            messages.error(request,e)
+
+    return render(request, "daftar_pelatih.html")

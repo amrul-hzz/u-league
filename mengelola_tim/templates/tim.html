@@ -64,8 +64,8 @@
                 {% if i.is_captain == True %}
                 <button>Delete</button>
                 {% else %}
-                <button>Make Captain</button>
-                <button>Delete</button>
+                <a href="/mengelolatim/make_captain/{{i.id_pemain}}"><button> Make Captain</button></a>
+                <a href="/mengelolatim/delete_pemain/{{i.id_pemain}}"><button>Delete</button></a>
                 {% endif %}
             </td>
         </tr>
@@ -89,7 +89,7 @@
             <td>{{i.alamat}}</td>
             <td>{{i.spesialisasi}}</td>
             <td>
-                <button>Delete</button>
+                <a href="/mengelolatim/delete_pelatih/{{i.id_pelatih}}"><button>Delete</button></a>
             </td>
         </tr>
         {% endfor %}

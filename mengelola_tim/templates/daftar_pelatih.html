@@ -25,7 +25,7 @@
         font-size: 16px;
         text-align: center;
     }
-    .dropdown-container {
+    form {
         width: 50%;
         margin: 0 auto;
         background-color: #fff;
@@ -51,17 +51,20 @@
 
 <body>
     <h1>DAFTAR PELATIH</h1><br>
-    <div class="dropdown-container">
+    <form action="/mengelolatim/add_pelatih/" method="post">
+        {% csrf_token %}
         <label>Pelatih yang mau didaftarkan:</label>
-        <select style="text-align: center;">
-            <option>tes</option>
+        <select name="dropdown" style="text-align: center;">
+            {% for i in pelatih %}
+            <option>{{i.nama_pelatih}} - {{i.spesialisasi}}</option>
+            {% endfor %}
         </select>
         <br>
         <br>
         <div style="display: flex; align-items: center; justify-content: center;">
             <input type="submit" value="SUBMIT">
         </div>
-    </div>
+    </form>
 </body>
 
 {% endblock content %}
