@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Tim</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 50px;
+    }
+    h2 {
+        text-align: center;
+        margin-top: 50px;
+    }
+    table {
+        margin:auto
+    }
+    button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+    }
+    .btn-container {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <h1>Tim</h1>
+    <h2>Pemain</h2>
+    <table border="1">
+        <tr>
+            <th>Nama Pemain</th>
+            <th>No HP</th>
+            <th>Tanggal Lahir</th>
+            <th>Is Captain</th>
+            <th>Posisi</th>
+            <th>NPM</th>
+            <th>Jenjang</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    <h2>Pelatih</h2>
+    <table border="1">
+        <tr>
+            <th>Nama Pelatih</th>
+            <th>No HP</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>Spesialisasi</th>
+            <th>Action</th>
+        </tr>
+    </table> <br>
+    <br>
+    <div class="btn-container">
+        <a href="daftar_pemain/">
+            <button type="button">Tambah Pemain</button>
+        </a>
+        <a href="daftar_pelatih/">
+            <button type="button">Tambah Pelatih</button>
+        </a>
+    </div>
+</body>
+
+{% endblock content %}

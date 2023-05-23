@@ -37,5 +37,7 @@ def buat_pertandingan(request, id):
         # validate jadwal tim dan wasit sebelum mebuat pertandingan
         return true
 
-def validate_jadwal_tim(value):
-    pertandingan = Pertandingan.objects.filter(waktu=value)
+def validate_jadwal_tim(value, nama_tim, jadwal):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT  FROM TIM WHERE JADWAL = %s", [value])
+        data = cursor.fetchall()

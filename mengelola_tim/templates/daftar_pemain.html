@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Daftar Pemain</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 50px;
+    }
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+    }
+    .dropdown-container {
+        width: 50%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    }
+    select {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+    label {
+        text-align: center;
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+    <h1>DAFTAR PEMAIN</h1><br>
+    <div class="dropdown-container">
+        <label>Pemain yang mau didaftarkan:</label>
+        <select style="text-align: center;">
+            <option>tes</option>
+        </select>
+        <br>
+        <br>
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <input type="submit" value="SUBMIT">
+        </div>
+    </div>
+</body>
+
+{% endblock content %}
