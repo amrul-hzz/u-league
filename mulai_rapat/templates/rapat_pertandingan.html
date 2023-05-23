@@ -1,15 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Rapat</title>
-</head>
-<body>
-    <h1>Rapat Pertandingan [The Vipers] vs [The Lions]</h1>
-	<form>
-		<label for="isi_rapat">Isi Rapat:</label><br>
-		<input type="text" id="isi_rapat" name="isi_rapat"><br>
+{% extends 'base.html' %}
 
-		<input type="submit" value="Submit">
-	</form>
-</body>
-</html>
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Input Rapat Pertandingan Sepakbola</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+  </head>
+  
+  <body class="bg-gray-50">
+    <div class="container mx-auto my-8">
+      <h1 class="text-3xl flex justify-center font-bold mb-4">Rapat Pertandingan {{nama_tim}}</h1>
+      
+      <form class="mx-auto w-full max-w-lg"  method="post">
+        <!-- todo: tambahkan action -->
+        {% csrf_token %}
+        <div class="flex flex-wrap mt-16 mb-16">
+          <label class="w-full mb-2" for="isi-rapat">Isi Rapat:</label>
+          <textarea class="w-full border border-gray-400 p-2 rounded-lg" id="isi_rapat" name="isi_rapat" rows="5" cols="40" required></textarea>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" type="submit">Submit</button>
+        </div>
+      </form>
+      
+    </div>
+  </body>
+
+{% endblock content %}
