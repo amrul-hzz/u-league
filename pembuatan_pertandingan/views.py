@@ -16,11 +16,11 @@ def get_semua_pertandingan(request):
             data[i]
         )
 
-    print(result)
+    # print(result)
 
     return render(request, 'list_pertandingan.html', {'pertandingans': result})
 
-def is_panitia(request, id):
+def is_panitia(id):
     # Implementasikan logika untuk mengecek apakah user adalah panitia
     # Misalnya, Anda dapat menggunakan perintah request.user.groups.filter(name='panitia').exists()
     with connection.cursor() as cursor:
@@ -42,6 +42,34 @@ def get_avail_stadium(request):
     for row in data:
         stadium_id, stadium_name = row
         result.append((stadium_id, stadium_name))
-    print(result)
+
+    # print(result)
 
     return render(request, 'pembuatan_pertandingan.html', {'stadiums': result})
+
+def get_all_wasit(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, CONCAT(nama_depan, ' ', nama_belakang) FROM NON_PEMAIN WHERE id IN (SELECT id_wasit FROM WASIT)")
+        data = cursor.fetchall()
+
+    result = []
+
+    for row in data:
+        id_wasit, nama = row
+        result.append((id_wasit, nama))
+
+    print(result)
+
+    return render(request, 'buat_pertandingan.html', {'wasits': result})
+
+def delete_pertandingan(row_id):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+            cursor.execute("DELETE FROM TIM_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+            cursor.execute("DELETE FROM WASIT_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+            cursor.execute("DELETE FROM PEMAIN_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+    
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'failed'})
