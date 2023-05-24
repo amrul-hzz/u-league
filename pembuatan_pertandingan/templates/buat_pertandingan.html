@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>BUAT PERTANDINGAN</title>
+    <title>Buat Pertandingan</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,40 +58,36 @@
     <form>
         <label for="wasit_utama">Pilih Wasit Utama:</label>
         <select id="wasit_utama">
-            <option value="wasit1">Wasit 1</option>
-            <option value="wasit2">Wasit 2</option>
-            <option value="wasit3">Wasit 3</option>
-            <!-- Add more options as needed -->
+            {% for wasit in wasits %}
+                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
 
         <label for="wasit_pembantu">Pilih Wasit Pembantu/Hakim Garis:</label>
         <select id="wasit_pembantu">
-            <option value="wasit4">Wasit 4</option>
-            <option value="wasit5">Wasit 5</option>
-            <option value="wasit6">Wasit 6</option>
-            <!-- Add more options as needed -->
+            {% for wasit in wasits %}
+                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
 
         <label for="wasit_pembantu2">Pilih Wasit Pembantu/Hakim Garis:</label>
         <select id="wasit_pembantu2">
-            <option value="wasit7">Wasit 7</option>
-            <option value="wasit8">Wasit 8</option>
-            <option value="wasit9">Wasit 9</option>
-            <!-- Add more options as needed -->
+            {% for wasit in wasits %}
+                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
 
         <label for="wasit_cadangan">Pilih Wasit Cadangan:</label>
         <select id="wasit_cadangan">
-            <option value="wasit10">Wasit 10</option>
-            <option value="wasit11">Wasit 11</option>
-            <option value="wasit12">Wasit 12</option>
-            <!-- Add more options as needed -->
+            {% for wasit in wasits %}
+                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
