@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import JsonResponse
 from django.db import connection
+import json
 
 def get_semua_pertandingan(request):
     with connection.cursor() as cursor:
@@ -16,9 +17,14 @@ def get_semua_pertandingan(request):
             data[i]
         )
 
-    # print(result)
+    pertandingans_json = json.dumps([str(uuid) for uuid in result])
 
-    return render(request, 'list_pertandingan.html', {'pertandingans': result})
+    context = {'pertandingans_json': pertandingans_json,
+                'pertandingans': result}
+
+    # print(pertandingans_json)
+
+    return render(request, 'list_pertandingan.html', context)
 
 def is_panitia(id):
     # Implementasikan logika untuk mengecek apakah user adalah panitia
@@ -58,7 +64,7 @@ def get_all_wasit(request):
         id_wasit, nama = row
         result.append((id_wasit, nama))
 
-    print(result)
+    # print(result)
 
     return render(request, 'buat_pertandingan.html', {'wasits': result})
 

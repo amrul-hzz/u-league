@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>List Pertandingan</title>
   <style>
     body {
       font-family: Arial, sans-serif;
     }
-    
+
     h2 {
       text-align: center;
       margin-top: 20px;
       margin-bottom: 10px;
     }
-    
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
-    
-    th, td {
+
+    th,
+    td {
       padding: 8px;
       text-align: center;
       border-bottom: 1px solid #ddd;
     }
-    
+
     th {
       background-color: #f2f2f2;
     }
-    
+
     button {
       padding: 6px 10px;
       font-size: 14px;
+    }
+
+    .notification {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #f0f0f0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
     }
   </style>
 </head>
 
 <body>
+  <div id="myNotification" class="notification">
+    <p>This is a pop-up notification!</p>
+  </div>
+
   <h2>LIST PERTANDINGAN</h2>
   <table>
     <thead>
@@ -73,7 +91,7 @@
       </tr>
     </tbody>
   </table>
-  
+
   <table>
     <thead>
       <tr>
@@ -115,12 +133,15 @@
     // Get the team cells and action cells
     var teamCells = document.querySelectorAll('td[id^="grupa"], td[id^="grupb"], td[id^="grupc"], td[id^="grupd"]');
     var actionCells = document.querySelectorAll('td[id^="action"]');
-  
+    // Get list of pertandingans from the server
+    var pertandingans_json = JSON.parse('{{ pertandingans_json|safe|escapejs }}');
+
+
     // Loop through each team cell and update the action cell accordingly
     for (var i = 0; i < teamCells.length; i++) {
       var teamCell = teamCells[i];
       var actionCell = actionCells[i];
-      
+
       // Check if the team cell contains '? vs ?'
       if (teamCell.innerHTML.trim() === '? vs ?') {
         // Create an 'Add' button and set it as the content of the action cell
@@ -134,40 +155,55 @@
         actionCell.appendChild(updateButton);
 
         // Add click event listener to the update button
-        updateButton.addEventListener('click', function() {
+        updateButton.addEventListener('click', function () {
           // Redirect to the desired page
           window.location.href = '/pembuatan_pertandingan/buat_pertandingan';
         });
-        
+
         // Create a 'Delete' button and set it as the content of the action cell
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         actionCell.appendChild(deleteButton);
 
         // Add click event listener to the delete button
-        deleteButton.addEventListener('click', function() {
-          
-          var row = this.parentNode.parentNode;
-          var groupId = row.querySelector('td[id^="grupa"]').textContent;
-          var groupAction = row.querySelector('td[id^="action"]');
+        deleteButton.addEventListener('click', function () {
 
-          // Send an AJAX request or perform form submission to the server-side script
+          var row = this.parentNode.parentNode;
+          var groupId = row.querySelector('td[id^="grupa"]');
+          var groupAction = row.querySelector('td[id^="action"]');
+          console.log('delete clicked')
+
           var xhr = new XMLHttpRequest();
-          xhr.open('DELETE', '/delete_pertandingan/' + id + '/', true);
+          xhr.open('DELETE','/delete_pertandingan/' + pertandingans_json[0].substring(7,43) + '/', true);
+          console.log(pertandingans_json[0].substring(7,43))
+          console.log(pertandingans_json[0])
+
           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          xhr.onreadystatechange = function() {
+          
+          xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
+              console.log(xhr.status);
               if (xhr.status === 200) {
-                // Railway deleted successfully
-                groupAction.innerHTML = 'Deleted'; // Update the action cell content
+                // create pop up message
+                groupId.innerHTML = '? vs ?';
+
               } else {
                 // Handle the error condition
-                groupAction.innerHTML = 'Error deleting railway';
+                var notification = document.getElementById("myNotification");
+                notification.style.display = "block";
+
+                // Hide the notification after 3 seconds
+                setTimeout(function () {
+                  notification.style.display = "Gagal menghapus pertandingan";
+                }, 3000);
               }
-            }}
+            }
+          };
+          xhr.send();
         });
       }
     }
   </script>
 </body>
+
 </html>
