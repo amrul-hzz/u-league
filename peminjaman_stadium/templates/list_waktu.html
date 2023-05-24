@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar_manajer.html' %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto my-8">
+        <h1 class="text-3xl flex justify-center font-bold mb-4">List Waktu Stadium</h1>
+        <h1 class="text-2xl flex justify-center font-bold mb-3">{{ nama_stadium }}</h1>
+
+        <div class="mt-8 flex justify-center">
+            <table class="table-auto border border-gray-600">
+                <thead>
+                    <tr class=" bg-green text-black">
+                        <th class="py-2 px-4 bg-green-700 text-white">List Waktu</th>
+                        <th class="py-2 px-4 bg-green-700 text-white">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="bg-gray-50 border border-black border-2">
+                        <td class="py-2 px-4 border">01/06/2023 7:31:12</td>
+                        <td class="py-2 px-4 border">
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Pesan</button>
+                        </td>
+                    </tr>
+                    <tr class="bg-gray-50 border border-black border-2">
+                        <td class="py-2 px-4 border">01/03/2023 5:31:12</td>
+                        <td class="py-2 px-4 border">
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Pesan</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

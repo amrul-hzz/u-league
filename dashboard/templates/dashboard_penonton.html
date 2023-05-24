@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Dashboard</title>
+<script src="https://kit.fontawesome.com/ff49bbe5ae.js" crossorigin="anonymous"></script>
+{% endblock meta %}
+
+{% block content %}
+<!-- Profile Card -->
+<div class="container-fluid d-flex align-items-center justify-content-center my-4">
+    <div class="card p-3 shadow">
+        <div class="card-body" id="profile-card">
+            <div class="info-column mx-3 mb-3">
+                <div class="row">
+                    <p class="h4 card-title my-4">{{nama_depan}} {{nama_belakang}}</p>
+                    <p class="h7 text-muted">
+                        <i class="fa-solid fa-phone"></i>
+                        {{nomor_hp}}
+                    </p>
+                    <p class="h7 text-muted">
+                        <i class="fa-solid fa-envelope"></i>
+                        {{email}}
+                    </p>
+                    <p class="h7 text-muted">
+                        <i class="fa-solid fa-location-dot"></i>
+                        {{alamat}}
+                    </p>
+                    <p class="h7 text-muted">
+                        <i class="fa-solid fa-user-tag"></i>
+                        {{status}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daftar Pertandingan -->
+<p class="h2 ms-5 mt-5">Daftar Pertandingan yang Akan Datang</p>
+<p class="h5 text-muted ms-5">Belum Memesan Pertandingan.</p>
+{% endblock content %}

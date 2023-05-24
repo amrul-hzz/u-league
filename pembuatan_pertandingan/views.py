@@ -26,7 +26,7 @@ def is_panitia(request, id):
         cursor.execute("SELECT * FROM PANITIA WHERE ID = %s", [id])
         data = cursor.fetchall()
 
-    if data != null:
+    if data != None:
         return True
     else:
         return False
@@ -35,7 +35,7 @@ def is_panitia(request, id):
 def buat_pertandingan(request, id):
     if is_panitia(id):
         # validate jadwal tim dan wasit sebelum mebuat pertandingan
-        return true
+        return True
 
 def validate_jadwal_tim(value, nama_tim, jadwal):
     with connection.cursor() as cursor:

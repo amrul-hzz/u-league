@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import batalkan_peminjaman, get_semua_pertandingan
+from .views import get_semua_pertandingan, batalkan_peminjaman
 
 urlpatterns = [
     path('batalkan/<waktu>/<stadium>/', batalkan_peminjaman, name='batalkan_peminjaman'),
