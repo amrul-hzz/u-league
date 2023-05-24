@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib import messages
+from django.http import HttpResponse
+from authentication.views import *
 
 # Create your views here.
 def mengelola_tim(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     return render(request, "pendaftaran_tim.html")
 
 def create_tim(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
 
     if request.method == "POST":
@@ -28,6 +34,8 @@ def create_tim(request):
     return render(request, "pendaftaran_tim.html")
 
 def get_tim(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     # 1. get username si manajer
     nama_manajer = request.session['username']
@@ -90,6 +98,13 @@ def get_tim(request):
             pemain.append(
                 {
                     "nama_pemain": i[2] + " " + i[3],
+                    "no_hp": i[4],
+                    "tanggal_lahir": i[5],
+                    "is_captain": i[6],
+                    "posisi": i[7],
+                    "npm": i[8],
+                    "jenjang": i[9],
+                    "id_pemain": i[0],
                 }
             )
     
@@ -144,6 +159,8 @@ def get_tim(request):
     }) 
 
 def make_captain(request, id):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     cursor.execute(f"""
     UPDATE PEMAIN
@@ -154,6 +171,8 @@ def make_captain(request, id):
     return redirect("/mengelolatim/")
 
 def delete_pemain(request, id):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     cursor.execute(f"""
     UPDATE PEMAIN
@@ -168,6 +187,8 @@ def delete_pemain(request, id):
     return redirect("/mengelolatim")
 
 def delete_pelatih(request, id):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     cursor.execute(f"""
     UPDATE PELATIH
@@ -178,6 +199,8 @@ def delete_pelatih(request, id):
     return redirect("/mengelolatim")
 
 def show_pemain_null(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     cursor.execute(f"""
     SELECT *
@@ -210,6 +233,8 @@ def show_pemain_null(request):
     })
 
 def add_pemain(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     if request.method == "POST":
         data_pemain = str(request.POST.get("dropdown")).split("-")
@@ -257,6 +282,8 @@ def add_pemain(request):
     return render(request, "daftar_pemain.html")
 
 def show_pelatih_null(request):
+    if is_manajer(request.session['username']) == False:
+        return HttpResponse("bukan manajer")
     cursor = connection.cursor()
     if request.method == "POST":
         id_pelatih = request.POST.get("id_pelatih")

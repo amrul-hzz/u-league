@@ -115,18 +115,18 @@
         </tr>
         {% for i in data.pemain %}
         <tr>
-            <td class="py-4 px-6">{{data.nama_pemain}}</td>
-            <td class="py-4 px-6">{{data.no_hp}}</td>
-            <td class="py-4 px-6">{{data.tanggal_lahir}}</td>
-            <td class="py-4 px-6">{{data.is_captain}}</td>
-            <td class="py-4 px-6">{{data.posisi}}</td>
-            <td class="py-4 px-6">{{data.npm}}</td>
-            <td class="py-4 px-6">{{data.jenjang}}</td>
+            <td class="py-4 px-6">{{i.nama_pemain}}</td>
+            <td class="py-4 px-6">{{i.no_hp}}</td>
+            <td class="py-4 px-6">{{i.tanggal_lahir}}</td>
+            <td class="py-4 px-6">{{i.is_captain}}</td>
+            <td class="py-4 px-6">{{i.posisi}}</td>
+            <td class="py-4 px-6">{{i.npm}}</td>
+            <td class="py-4 px-6">{{i.jenjang}}</td>
             <td class="py-4 px-6">
-                {% if data.is_captain == True %}
-                <button>Delete</button>
+                {% if i.is_captain == True %}
+                <a href="/mengelolatim/delete_pemain/{{i.id_pemain}}"><button>Delete</button></a>
                 {% else %}
-                <a href="/mengelolatim/make_captain/{{i.id_pemain}}"><button> Make Captain</button></a>
+                <a href="/mengelolatim/make_captain/{{i.id_pemain}}"><button>Make Captain</button></a>
                 <a href="/mengelolatim/delete_pemain/{{i.id_pemain}}"><button>Delete</button></a>
                 {% endif %}
             </td>
