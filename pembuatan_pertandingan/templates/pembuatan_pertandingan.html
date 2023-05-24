@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pembuatan Pertandingan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    select, input[type="date"] {
+      width: 200px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>PEMBUATAN PERTANDINGAN</h1>
+  
+  <div class="form-container">
+    <label for="stadium-dropdown">Stadium:</label>
+    <select id="stadium-dropdown">
+        {% for stadium in stadiums %}
+            <option value="{{ stadium.0 }}">{{ stadium.1 }}</option>
+        {% endfor %}
+      <!-- Add more options for available stadiums -->
+    </select>
+
+    <br><br>
+
+    <label for="tanggal-calendar">Tanggal:</label>
+    <input type="date" id="tanggal-calendar">
+
+    <br><br>
+
+    <button id="next-button">NEXT</button>
+  </div>
+  
+  <script>
+    // JavaScript code can be added here to handle button click events or perform other actions
+    document.getElementById("next-button").addEventListener("click", function() {
+      // Code to execute when the NEXT button is clicked
+    });
+  </script>
+</body>
+</html>

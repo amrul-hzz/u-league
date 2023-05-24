@@ -9,9 +9,8 @@ def get_semua_pertandingan(request):
         cursor.execute("SELECT * FROM PERTANDINGAN")
         data = cursor.fetchall()
     
-    # Process the retrieved data as per your needs
-    # For example, you can convert it to a list of dictionaries
     result = []
+    
     for i in range(len(data)):
         result.append(
             data[i]
@@ -31,13 +30,16 @@ def is_panitia(request, id):
     else:
         return False
 
-
-def buat_pertandingan(request, id):
-    if is_panitia(id):
-        # validate jadwal tim dan wasit sebelum mebuat pertandingan
-        return True
-
-def validate_jadwal_tim(value, nama_tim, jadwal):
+def get_avail_stadium(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT  FROM TIM WHERE JADWAL = %s", [value])
+        cursor.execute("SELECT id_stadium, nama FROM STADIUM")
         data = cursor.fetchall()
+
+    result = []
+
+    for row in data:
+        stadium_id, stadium_name = row
+        result.append((stadium_id, stadium_name))
+    print(result)
+
+    return render(request, 'pembuatan_pertandingan.html', {'stadiums': result})
