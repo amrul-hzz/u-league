@@ -1,50 +1,46 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Panitia</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+  
+        .container {
+          width: 80%;
+          margin: 0 auto;
+        }
+  
+        h1 {
+          text-align: center;
+          margin-top: 20px;
+        }
+  
+        table {
+          margin: 20px auto;
+          border-collapse: collapse;
+          width: 100%;
+        }
+  
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
+        }
+  
+        th {
+          background-color: #f2f2f2;
+        }
 
-{% block meta %}
-<title>Dashboard Panitia</title>
-{% endblock meta %}
-
-{% block content %}
-
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-    }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    .rapat {
-      text-align: center;
-      font-weight: bold;
-    }
-    .belum-ada {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    /* navbar styles */
-    .navbar {
+        /* navbar styles */
+        .navbar {
           background-color: #333;
           overflow: hidden;
         }
@@ -125,10 +121,11 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
-</style>
 
+      </style>
+</head>
 <body>
-  <nav>
+
     <div class="navbar">
       <a target="_parent" href="#dashboard">Dashboard</a>
       <a target="_parent" href="/mulairapat/">Rapat</a>
@@ -142,54 +139,6 @@
       </li>
       <a target="_parent" id="logout-btn" href="../c_login_register/LoginRegisterPage.html">Logout</a>
     </div>
-  </nav>
-    <div class="container">
-        <h1><b>Dashboard Panitia</b></h1>
-        <h2>Informasi Profil</h2>
-        <table>
-          <tr>
-            <th>Nama Depan</th>
-            <td>{{nama_depan}}</td>
-          </tr>
-          <tr>
-            <th>Nama Belakang</th>
-            <td>{{nama_belakang}}</td>
-          </tr>
-          <tr>
-            <th>Nomor HP</th>
-            <td>{{no_hp}}</td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td>{{email}}</td>
-          </tr>
-          <tr>
-            <th>Alamat</th>
-            <td>{{alamat}}</td>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td>{{status}}</td>
-          </tr>
-          <tr>
-            <th>Jabatan</th>
-            <td>{{jabatan}}</td>
-          </tr>
-        </table>
-        <h2>Daftar Rapat</h2>
-        <table>
-          <tr>
-            <th>ID Pertandingan</th>
-            <th>Tanggal dan Waktu</th>
-          </tr>
-          <tr>
-            {% for i in rapat %}
-            <td>{{i.id_pertandingan}}</td>
-            <td>{{i.datetime}}</td>
-            {% endfor %}
-          </tr>
-        </table>
-    </div>
-</body>
 
-{% endblock content %}
+</body>
+</html>
