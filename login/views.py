@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connection
+from pprint import pprint
 
 def login(request):
     response = {}

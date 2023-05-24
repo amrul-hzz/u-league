@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
-from django.http import JsonResponse
+from django.contrib import messages
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
@@ -47,10 +47,11 @@ def show_dashboard_manajer(request):
     cursor.execute(f"""
     SELECT id_manajer
     FROM MANAJER
-    WHERE username = 'vdeantoni15'
+    WHERE username = 'cobalagi'
     """)
 
     id_manajer = str(cursor.fetchone()[0])
+    print(id_manajer)
 
     cursor.execute(f"""
     SELECT *
@@ -60,6 +61,7 @@ def show_dashboard_manajer(request):
     """)
 
     data_manajer = cursor.fetchone()
+    print(data_manajer)
 
     cursor.execute(f"""
     SELECT nama_tim
@@ -67,17 +69,35 @@ def show_dashboard_manajer(request):
     WHERE id_manajer = '{id_manajer}'
     """)
 
-    nama_tim = str(cursor.fetchone()[0])
-    print(nama_tim)
 
-    cursor.execute(f"""
-    SELECT *
-    FROM PEMAIN
-    WHERE nama_tim = '{nama_tim}'
-    """)
+    nama_tim = None
 
+    try:
+        nama_tim = str(cursor.fetchone()[0])
+        print(nama_tim)
+
+        cursor.execute(f"""
+        SELECT *
+        FROM PEMAIN
+        WHERE nama_tim = '{nama_tim}'
+        """)
+
+    except Exception as e:
+        messages.error(request,e)
+
+    nama_univ = None
+    
+    try:
+        cursor.execute(f"""
+        SELECT universitas
+        FROM TIM
+        WHERE nama_tim = '{nama_tim}'
+        """)
+        nama_univ = cursor.fetchone()[0]
+    except Exception as e:
+        messages.error(request,e)
+        
     data_pemain = cursor.fetchall()
-
     pemain = []
 
     indexing = 1
@@ -91,6 +111,17 @@ def show_dashboard_manajer(request):
                 }
             )
             indexing += 1
+    
+    data_tim = []
+
+    if nama_tim:
+        data_tim.append(
+            {
+                "nama_tim":nama_tim,
+                "nama_univ": nama_univ,
+                "pemain":pemain
+            }
+        )
 
     return render(request, 'dashboard_manajer.html', {
         "nama_depan": str(data_manajer[1]),
@@ -99,8 +130,7 @@ def show_dashboard_manajer(request):
         "email": str(data_manajer[4]),
         "alamat": str(data_manajer[5]),
         "status": str(data_manajer[7]),
-        "nama_tim": nama_tim,
-        "pemain": pemain,
+        "data_tim":data_tim
     })
 
 def show_dashboard_panitia(request):

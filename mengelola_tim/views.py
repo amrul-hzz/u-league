@@ -17,7 +17,7 @@ def create_tim(request):
             cursor.execute(f"""
             INSERT INTO TIM VALUES ('{nama_tim}', '{nama_universitas}');
 
-            INSERT INTO TIM_MANAJER VALUES ('3515bcb2-3a1b-4c97-ada4-f85f80486a30', '{nama_tim}');
+            INSERT INTO TIM_MANAJER VALUES ('18aa5c26-6c61-454e-afd3-346fe7be83f7', '{nama_tim}');
             
             """)
 
@@ -35,8 +35,9 @@ def get_tim(request):
     cursor.execute(f"""
     SELECT *
     FROM MANAJER
-    WHERE username = 'vdeantoni15'
+    WHERE username = 'cobalagi'
     """)
+    # WHERE username = 'vdeantoni15'
 
     try:
         id_manajer = str(cursor.fetchone()[0])
@@ -50,32 +51,40 @@ def get_tim(request):
     WHERE id_manajer = '{id_manajer}'
     """)
 
+    nama_tim = None
+
     try:
         nama_tim = cursor.fetchone()[0]
     except Exception as e:
         messages.error(request,e)
 
-    # 4. ambil nama tim dan asal univ
-    cursor.execute(f"""
-    SELECT universitas
-    FROM TIM
-    WHERE nama_tim = '{nama_tim}'
-    """)
+    # 4. ambil nama tim dan asal univ   
 
     try:
+        # nama_tim = str(cursor.fetchone()[0])
+        # print(nama_tim)
+
+        cursor.execute(f"""
+        SELECT *
+        FROM PEMAIN
+        WHERE nama_tim = '{nama_tim}'
+        """)
+
+    except Exception as e:
+        messages.error(request,e)
+    data_pemain = cursor.fetchall()
+
+    nama_univ = None
+
+    try:
+        cursor.execute(f"""
+        SELECT universitas
+        FROM TIM
+        WHERE nama_tim = '{nama_tim}'
+        """)
         nama_univ = cursor.fetchone()[0]
     except Exception as e:
         messages.error(request,e)
-
-    # 5. ambil nama2 pemain dari tabel pemain 
-    cursor.execute(f"""
-    SELECT *
-    FROM PEMAIN
-    WHERE nama_tim = '{nama_tim}'
-    ORDER BY id_pemain;
-    """)
-
-    data_pemain = cursor.fetchall()
 
     pemain = []
 
@@ -84,15 +93,50 @@ def get_tim(request):
             pemain.append(
                 {
                     "nama_pemain": i[2] + " " + i[3],
-                    "no_hp": i[4],
-                    "tanggal_lahir": i[5],
-                    "is_captain": i[6],
-                    "posisi": i[7],
-                    "npm": i[8],
-                    "jenjang": i[9],
-                    "id_pemain": i[0],
                 }
             )
+    
+    data_tim = []
+
+    if nama_tim:
+        data_tim.append(
+            {
+                "nama_tim":nama_tim,
+                "pemain":pemain
+            }
+        )
+
+    # try:
+    #     nama_univ = cursor.fetchone()[0]
+    # except Exception as e:
+    #     messages.error(request,e)
+
+    # # 5. ambil nama2 pemain dari tabel pemain 
+    # cursor.execute(f"""
+    # SELECT *
+    # FROM PEMAIN
+    # WHERE nama_tim = '{nama_tim}'
+    # ORDER BY id_pemain;
+    # """)
+
+    # data_pemain = cursor.fetchall()
+
+    # pemain = []
+
+    # if data_pemain:
+    #     for i in data_pemain:
+    #         pemain.append(
+    #             {
+    #                 "nama_pemain": i[2] + " " + i[3],
+    #                 "no_hp": i[4],
+    #                 "tanggal_lahir": i[5],
+    #                 "is_captain": i[6],
+    #                 "posisi": i[7],
+    #                 "npm": i[8],
+    #                 "jenjang": i[9],
+    #                 "id_pemain": i[0],
+    #             }
+    #         )
 
     # 6. ambil nama2 pelatih dari tabel pelatih
     cursor.execute(f"""
@@ -130,7 +174,7 @@ def get_tim(request):
     return render(request, "tim.html", {
         "nama_tim": nama_tim,
         "nama_univ": nama_univ,
-        "pemain": pemain,
+        "data_tim": data_tim,
         "pelatih": pelatih,
     }) 
 
