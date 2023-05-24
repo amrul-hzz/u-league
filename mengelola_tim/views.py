@@ -236,8 +236,13 @@ def add_pemain(request):
     if is_manajer(request.session['username']) == False:
         return HttpResponse("bukan manajer")
     cursor = connection.cursor()
+    
     if request.method == "POST":
         data_pemain = str(request.POST.get("dropdown")).split("-")
+
+        if not data_pemain or len(data_pemain) < 2:
+            return HttpResponse("Tidak ada pemain yang dapat ditambahkan")
+        
         nama_pemain = str(data_pemain[0]).split(" ")
         nama_depan = nama_pemain[0]
         nama_belakang = nama_pemain[1]
@@ -287,6 +292,9 @@ def show_pelatih_null(request):
     cursor = connection.cursor()
     if request.method == "POST":
         id_pelatih = request.POST.get("id_pelatih")
+
+        if not id_pelatih:
+            return HttpResponse("Tidak ada pelatih yang dapat ditambahkan")
 
         cursor.execute(f"""
         SELECT id_manajer

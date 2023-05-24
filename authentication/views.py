@@ -46,6 +46,20 @@ def verified(data):
             return True
     return False
 
+def logout(request):
+    next = request.GET.get("next")
+
+    if not verified(request):
+        return redirect("/")
+
+    request.session.flush()
+    request.session.clear_expired()
+
+    if next != None and next != "None":
+        return redirect(next)
+    else:
+        return redirect("/")
+
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
