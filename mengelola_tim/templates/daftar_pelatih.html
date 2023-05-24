@@ -91,7 +91,7 @@
 <body>
     <nav>
         <div class="navbar">
-            <a target="_parent" href="../dashboard/dashboard_manajer.html">Dashboard</a>
+            <a target="_parent" href="/dashboard/dashboard_manajer/">Dashboard</a>
             <a target="_parent" href="/mengelolatim/">Mengelola Tim</a>
             <a target="_parent" href="/peminjaman_stadium/">Peminjaman Stadium</a>
             <a target="_parent" href="../r_list_pertandingan/InfoListPertandingan.html">List Pertandingan</a>
@@ -100,12 +100,12 @@
           </div>
     </nav>
     <h1><b>DAFTAR PELATIH</b></h1><br>
-    <form action="/mengelolatim/add_pelatih/" method="post">
+    <form action="/mengelolatim/daftar_pelatih/" method="post">
         {% csrf_token %}
         <label>Pelatih yang mau didaftarkan:</label>
-        <select name="dropdown" style="text-align: center;">
+        <select name="id_pelatih" id="id_pelatih" style="text-align: center;">
             {% for i in pelatih %}
-            <option>{{i.nama_pelatih}} - {{i.spesialisasi}}</option>
+            <option value="{{i.id_pelatih}}">{{i.nama_pelatih}} - {{i.spesialisasi}}</option>
             {% endfor %}
         </select>
         <br>
@@ -113,7 +113,13 @@
         <div style="display: flex; align-items: center; justify-content: center;">
             <input type="submit" value="SUBMIT">
         </div>
-        {% if message %}
+        {% if messages %}
+        <ul class="text-sm">
+        {% for message in messages %}
+          <li>{{ messages }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
     </form>
 </body>
 

@@ -152,11 +152,16 @@ def show_dashboard_panitia(request):
 
     data_final = cursor.fetchone()
 
-    cursor.execute(f"""
-    SELECT *
-    FROM RAPAT
-    WHERE perwakilan_panitia = '{id_panitia}'
-    """)
+    data_rapat = None
+
+    try:
+        cursor.execute(f"""
+        SELECT *
+        FROM RAPAT
+        WHERE perwakilan_panitia = '{id_panitia}'
+        """)
+    except Exception as e:
+        messages.error(request,e)
 
     data_rapat = cursor.fetchall()
 
@@ -179,5 +184,5 @@ def show_dashboard_panitia(request):
         "alamat": data_final[5],
         "status": data_final[7],
         "jabatan": jabatan_panitia,
-        "rapat": rapat,
+        "data_rapat": data_rapat,
     })

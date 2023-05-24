@@ -146,7 +146,6 @@
 
     <div class="container">
         <h2>Informasi Tim</h2>
-
         {% for data in data_tim %}
         <table>
             <tr>
@@ -161,7 +160,7 @@
               {% endfor %}
         </table>
         {% empty %}
-        <h1>Belum Membuat tim</h1>
+        <h1>Belum Membuat Tim</h1>
         {% endfor %}
     </div>
     <br>
@@ -169,6 +168,8 @@
     <div class="button-container">
       <a href="/mengelolatim/create_tim/" class="btn-daftar"><button>Daftarkan Tim</button></a>
     </div>
+    <br>
+    <br>
 </body>
 
 {% endblock content %}

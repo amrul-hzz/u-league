@@ -258,6 +258,35 @@ def add_pemain(request):
 
 def show_pelatih_null(request):
     cursor = connection.cursor()
+    if request.method == "POST":
+        id_pelatih = request.POST.get("id_pelatih")
+
+        cursor.execute(f"""
+        SELECT id_manajer
+        FROM MANAJER
+        WHERE username = '{request.session['username']}'
+        """)
+
+        id_manajer = str(cursor.fetchone()[0])
+
+        cursor.execute(f"""
+        SELECT nama_tim
+        FROM TIM_MANAJER
+        WHERE id_manajer = '{id_manajer}'
+        """)
+
+        nama_tim = str(cursor.fetchone()[0])
+        try:
+
+            cursor.execute(f"""
+            UPDATE PELATIH
+            SET nama_tim = '{nama_tim}'
+            WHERE id_pelatih = '{id_pelatih}';
+            """)
+
+            return redirect("/mengelolatim/")
+        except Exception as e:
+            messages.error(request,e)
     cursor.execute(f"""
     SELECT *
     FROM PELATIH
@@ -294,49 +323,40 @@ def show_pelatih_null(request):
         "pelatih": pelatih,
     })
 
-def add_pelatih(request):
-    cursor = connection.cursor()
-    if request.method == "POST":
-        data_pelatih = str(request.POST.get("dropdown")).split("-")
-        nama_pelatih = str(data_pelatih[0]).split(" ")
-        nama_depan = nama_pelatih[0]
-        nama_belakang = nama_pelatih[1]
-        spesialisasi = data_pelatih[1]
+# def add_pelatih(request):
+#     cursor = connection.cursor()
+#     if request.method == "POST":
+#         id_pelatih = request.POST.get("id_pelatih")
 
-        cursor.execute(f"""
-        SELECT id
-        FROM NON_PEMAIN
-        WHERE nama_depan = '{nama_depan}' AND
-            nama_belakang = '{nama_belakang}';
-        """)
+#         try:
 
-        id_pelatih = str(cursor.fetchone()[0])
+#             print(nama_tim)
+#             print("masukk")
+#             print(id_pelatih)
 
-        try:
-            cursor.execute(f"""
-            SELECT id_manajer
-            FROM MANAJER
-            WHERE username = '{request.session['username']}'
-            """)
+#             cursor.execute(f"""
+#             SELECT id_manajer
+#             FROM MANAJER
+#             WHERE username = '{request.session['username']}'
+#             """)
 
-            id_manajer = str(cursor.fetchone()[0])
+#             id_manajer = str(cursor.fetchone()[0])
 
-            cursor.execute(f"""
-            SELECT nama_tim
-            FROM TIM_MANAJER
-            WHERE id_manajer = '{id_manajer}'
-            """)
+#             cursor.execute(f"""
+#             SELECT nama_tim
+#             FROM TIM_MANAJER
+#             WHERE id_manajer = '{id_manajer}'
+#             """)
 
-            nama_tim = str(cursor.fetchone()[0])
+#             nama_tim = str(cursor.fetchone()[0])
+#             cursor.execute(f"""
+#             UPDATE PELATIH
+#             SET nama_tim = '{nama_tim}'
+#             WHERE id_pelatih = '{id_pelatih}';
+#             """)
 
-            cursor.execute(f"""
-            UPDATE PELATIH
-            SET nama_tim = '{nama_tim}'
-            WHERE id_pelatih = '{id_pelatih}';
-            """)
+#             return redirect("/mengelolatim/")
+#         except Exception as e:
+#             messages.error(request,e)
 
-            return redirect("/mengelolatim/")
-        except Exception as e:
-            messages.error(request,e)
-
-    return render(request, "daftar_pelatih.html")
+#     return render(request, "daftar_pelatih.html")
