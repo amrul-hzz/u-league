@@ -30,12 +30,12 @@ def create_tim(request):
 def get_tim(request):
     cursor = connection.cursor()
     # 1. get username si manajer
-    # nama_manajer = request.session("username")
+    nama_manajer = request.session['username']
     # 2. ambil id dr tabel manajer
     cursor.execute(f"""
     SELECT *
     FROM MANAJER
-    WHERE username = 'cobalagi'
+    WHERE username = '{nama_manajer}'
     """)
     # WHERE username = 'vdeantoni15'
 
@@ -105,38 +105,6 @@ def get_tim(request):
                 "pemain":pemain
             }
         )
-
-    # try:
-    #     nama_univ = cursor.fetchone()[0]
-    # except Exception as e:
-    #     messages.error(request,e)
-
-    # # 5. ambil nama2 pemain dari tabel pemain 
-    # cursor.execute(f"""
-    # SELECT *
-    # FROM PEMAIN
-    # WHERE nama_tim = '{nama_tim}'
-    # ORDER BY id_pemain;
-    # """)
-
-    # data_pemain = cursor.fetchall()
-
-    # pemain = []
-
-    # if data_pemain:
-    #     for i in data_pemain:
-    #         pemain.append(
-    #             {
-    #                 "nama_pemain": i[2] + " " + i[3],
-    #                 "no_hp": i[4],
-    #                 "tanggal_lahir": i[5],
-    #                 "is_captain": i[6],
-    #                 "posisi": i[7],
-    #                 "npm": i[8],
-    #                 "jenjang": i[9],
-    #                 "id_pemain": i[0],
-    #             }
-    #         )
 
     # 6. ambil nama2 pelatih dari tabel pelatih
     cursor.execute(f"""
@@ -245,7 +213,6 @@ def show_pemain_null(request):
     })
 
 def add_pemain(request):
-    print("masuk sini")
     cursor = connection.cursor()
     if request.method == "POST":
         data_pemain = str(request.POST.get("dropdown")).split("-")
@@ -255,7 +222,6 @@ def add_pemain(request):
         nama_depan = nama_pemain[0]
         nama_belakang = nama_pemain[1]
         posisi = data_pemain[1]
-        # nama_tim = request.session("nama_tim")
         print("nama depan: "+nama_depan)
         print("nama belakang: "+nama_belakang)
         print("posisi: "+posisi)
@@ -272,8 +238,24 @@ def add_pemain(request):
 
         try:
             cursor.execute(f"""
+            SELECT id_manajer
+            FROM MANAJER
+            WHERE username = '{request.session['username']}'
+            """)
+
+            id_manajer = str(cursor.fetchone()[0])
+
+            cursor.execute(f"""
+            SELECT nama_tim
+            FROM TIM_MANAJER
+            WHERE id_manajer = '{id_manajer}'
+            """)
+
+            nama_tim = str(cursor.fetchone()[0])
+
+            cursor.execute(f"""
             UPDATE PEMAIN
-            SET nama_tim = 'The Mavericks'
+            SET nama_tim = '{nama_tim}'
             WHERE id_pemain = '{id_pemain}';
             """)
 
@@ -349,8 +331,24 @@ def add_pelatih(request):
 
         try:
             cursor.execute(f"""
+            SELECT id_manajer
+            FROM MANAJER
+            WHERE username = '{request.session['username']}'
+            """)
+
+            id_manajer = str(cursor.fetchone()[0])
+
+            cursor.execute(f"""
+            SELECT nama_tim
+            FROM TIM_MANAJER
+            WHERE id_manajer = '{id_manajer}'
+            """)
+
+            nama_tim = str(cursor.fetchone()[0])
+
+            cursor.execute(f"""
             UPDATE PELATIH
-            SET nama_tim = 'The Mavericks'
+            SET nama_tim = '{nama_tim}'
             WHERE id_pelatih = '{id_pelatih}';
             """)
             print("masuk sini")

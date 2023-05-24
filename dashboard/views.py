@@ -43,11 +43,11 @@ def show_dashboard(request):
 
 def show_dashboard_manajer(request):
     cursor = connection.cursor()
-    # username_manajer = request.session("username")
+    username_manajer = request.session['username']
     cursor.execute(f"""
     SELECT id_manajer
     FROM MANAJER
-    WHERE username = 'cobalagi'
+    WHERE username = '{username_manajer}'
     """)
 
     id_manajer = str(cursor.fetchone()[0])
@@ -135,11 +135,11 @@ def show_dashboard_manajer(request):
 
 def show_dashboard_panitia(request):
     cursor = connection.cursor()
-    # username_panitia = request.session("username")
+    username_panitia = request.session['username']
     cursor.execute(f"""
     SELECT id_panitia, jabatan
     FROM PANITIA
-    WHERE username = 'jspackmank'
+    WHERE username = '{username_panitia}'
     """)
 
     data_panitia = cursor.fetchone()
