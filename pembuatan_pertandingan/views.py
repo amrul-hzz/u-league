@@ -20,7 +20,7 @@ def get_semua_pertandingan(request):
 
     return render(request, 'list_pertandingan.html', {'pertandingans': result})
 
-def is_panitia(request, id):
+def is_panitia(id):
     # Implementasikan logika untuk mengecek apakah user adalah panitia
     # Misalnya, Anda dapat menggunakan perintah request.user.groups.filter(name='panitia').exists()
     with connection.cursor() as cursor:
