@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% endblock meta %}
+<head>
+	<title>Peminjaman Stadium</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 2px solid #000000;
+            text-align: middle;
+            padding: 8px;
+        }
+    </style>
+</head>
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Lihat Peristiwa</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="5">Peristiwa Tim [Nama Tim]</th>
+            </tr>
+            <tr>
+                <th scope="col">Nama Pemain</th>
+                <th scope="col">Peristiwa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pemain 1</td>
+                <td>Peristiwa 1</td>
+            </tr>
+            <tr>
+                <td>Pemain 2</td>
+                <td>Peristiwa 2</td>
+            </tr>
+            <tr>
+                <td>Pemain 3</td>
+                <td>Peristiwa 3</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

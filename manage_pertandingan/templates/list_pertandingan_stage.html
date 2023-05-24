@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% endblock meta %}
+<head>
+	<title>Peminjaman Stadium</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 2px solid #000000;
+            text-align: middle;
+            padding: 8px;
+        }
+    </style>
+</head>
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">List Pertandingan Babak 1</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="5">LIST PERTANDINGAN GRUP STAGE</th>
+            </tr>
+            <tr>
+                <th scope="col">Grup</th>
+                <th scope="col">Tim</th>
+                <th scope="col">Waktu</th>
+                <th scope="col">Pemenang</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="4">A</td>
+                <td>A VS B</td>
+                <td>28 April 2023, 13:00</td>
+                <td>A</td>
+                <td>
+                    <table>
+                        <tr>
+                          <td><a href="#" class="btn btn-outline-primary btn-sm">Lihat Peristiwa Tim 1</a></td>
+                        </tr>
+                        <tr>
+                          <td><a href="#" class="btn btn-outline-primary btn-sm">Lihat Peristiwa Tim 2</a></td>
+                        </tr>
+                      </table>
+                </td>
+            </tr>
+            <tr>
+                <td>C VS D</td>
+                <td>29 April 2023, 13:00</td>
+                <td>D</td>
+                <td>
+                    <table>
+                        <tr>
+                          <td><a href="#" class="btn btn-outline-primary btn-sm">Lihat Peristiwa Tim 1</a></td>
+                        </tr>
+                        <tr>
+                          <td><a href="#" class="btn btn-outline-primary btn-sm">Lihat Peristiwa Tim 2</a></td>
+                        </tr>
+                      </table>
+                </td>
+            </tr>
+            <tr>
+                <td>E VS F</td>
+                <td>[Waktu Dimulai -5 Menit]</td>
+                <td>-</td>
+                <td><a href="#" class="btn btn-outline-primary btn-sm">Mulai</a></td>
+            </tr>
+            <tr>
+                <td>G VS H</td>
+                <td>10 May 2023, 12:00</td>
+                <td>-</td>
+                <td>Belum Waktunya</td>
+                
+            </tr>
+            <tr>
+                <td colspan="5" align="center"><a href="#" class="btn btn-primary">Finish</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <h1 class="mb-4">List Pertandingan Babak 2</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="5">LIST PERTANDINGAN GRUP STAGE</th>
+            </tr>
+            <tr>
+                <th scope="col">Grup</th>
+                <th scope="col">Tim</th>
+                <th scope="col">Waktu</th>
+                <th scope="col">Pemenang</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="4">A</td>
+                <td>A VS B</td>
+                <td>28 April 2023, 13:00</td>
+                <td>A</td>
+                <td><a href="#" class="btn btn-outline-primary btn-sm">Update</a></td>
+            </tr>
+            <tr>
+                <td>E VS H</td>
+                <td>28 Mei 2023, 13:00</td>
+                <td>-</td>
+                <td><a href="#" class="btn btn-outline-primary btn-sm">Update</a></td>
+            </tr>
+            <tr>
+                <td colspan="5" align="center"><a href="#" class="btn btn-primary">Finish</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
