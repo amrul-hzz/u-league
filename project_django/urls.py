@@ -23,4 +23,5 @@ urlpatterns = [
     path('mengelolatim/', include('mengelola_tim.urls')),
     path('login/', include('login.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('manage_pertandingan/', include('manage_pertandingan.urls')),
 ]

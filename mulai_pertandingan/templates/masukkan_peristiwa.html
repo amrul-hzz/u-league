@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% endblock meta %}
+<head>
+	<title>Masukkan Pertandingan</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 2px solid #000000;
+            text-align: middle;
+            padding: 8px;
+        }
+    </style>
+</head>
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Peristiwa</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Tim 1</th>
+                <th scope="col">Tim 2</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>B</td>
+                <td>
+                    <table>
+                        <tr>
+                          <td><a href="{% url 'mulai_pertandingan:pilih-peristiwa1' %}" class="btn btn-outline-primary btn-sm">Masukkan Peristiwa Tim 1</a></td>
+                        </tr>
+                        <tr>
+                          <td><a href="{% url 'mulai_pertandingan:pilih-peristiwa2' %}" class="btn btn-outline-primary btn-sm">Masukkan Peristiwa Tim 2</a></td>
+                        </tr>
+                      </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center"><a href="#" class="btn btn-primary">Submit</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
