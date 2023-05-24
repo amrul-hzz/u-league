@@ -143,14 +143,36 @@ def show_dashboard_panitia(request):
 
     jabatan_panitia = str(data_panitia[1])
 
-    cursor.execute(f"""
-    SELECT *
-    FROM NON_PEMAIN
-    JOIN STATUS_NON_PEMAIN ON id_non_pemain = id
-    WHERE id_non_pemain = '{id_panitia}'
-    """)
+    nama_depan = None
+    nama_belakang = None
+    no_hp = None
+    email = None
+    alamat = None
+    status = None
 
-    data_final = cursor.fetchone()
+    try:
+        cursor.execute(f"""
+        SELECT *
+        FROM NON_PEMAIN
+        JOIN STATUS_NON_PEMAIN ON id_non_pemain = id
+        WHERE id_non_pemain = '{id_panitia}'
+        """)
+
+        print("id panitia final:" + id_panitia)
+        data_final = cursor.fetchone()
+
+        print("masuk gasih")
+
+        print(data_final)
+
+        nama_depan = data_final[1]
+        nama_belakang = data_final[2]
+        no_hp = data_final[3]
+        email = data_final[4]
+        alamat = data_final[5]
+        status = data_final[7]
+    except Exception as e:
+        messages.error(request,e)
 
     data_rapat = None
 
@@ -177,12 +199,12 @@ def show_dashboard_panitia(request):
             )
    
     return render(request, 'dashboard_panitia.html', {
-        "nama_depan": data_final[1],
-        "nama_belakang": data_final[2],
-        "no_hp": data_final[3],
-        "email": data_final[4],
-        "alamat": data_final[5],
-        "status": data_final[7],
+        "nama_depan": nama_depan,
+        "nama_belakang": nama_belakang,
+        "no_hp": no_hp,
+        "email": email,
+        "alamat": alamat,
+        "status": status,
         "jabatan": jabatan_panitia,
-        "data_rapat": data_rapat,
+        "rapat": rapat,
     })
