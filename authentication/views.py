@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 
+def landing(request):
+    return render(request, 'landing.html')
+
+def landing_register(request):
+    return render(request, 'landing-register.html')
+
 def login(request):
     response = {}
     response['error'] = False

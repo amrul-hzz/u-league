@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% endblock meta %}
+
+{% block content %}
+<center class="mt-5">
+    <h1>ULEAGUE - F2</h1>
+    <h3>
+        <a href="{% url 'authentication:login' %}" class="btn btn-outline-primary me-2">Login</a>
+        <br>
+        <a href="{% url 'authentication:landing-register' %}" class="btn btn-outline-primary">Register</a>
+    </h3>
+</center>
+{% endblock content %}

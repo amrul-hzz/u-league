@@ -22,7 +22,7 @@ urlpatterns = [
     # path('pembuatan_pertandingan/', include('pembuatan_pertandingan.urls')),
     path('mengelolatim/', include('mengelola_tim.urls')),
     path('mulairapat/', include('mulai_rapat.urls')),
-    path('login/', include('login.urls')),
+    path('authentication/', include('authentication.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('manage_pertandingan/', include('manage_pertandingan.urls')),
     path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
