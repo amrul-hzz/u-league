@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Pembelian Tiket</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    table{
+        margin: auto;
+    }
+   
+</style>
+
+<body>
+    {% include 'navbar_penonton.html' %}
+
+    <h1 style="text-align: center;">List Waktu Stadium {{stadium_name}}</h1>
+    
+    <table border="1">
+        <head>
+            <tr>
+                <th>List Waktu</th>
+                <th>Tim A</th>
+                <th>Tim B</th>
+                <th>Action</th>
+            </tr>
+        </head>
+        <body>
+            {% for item in match_list %}
+            <tr>
+                <th>{{item[1]}} s/d {{item[2]}}</th>
+                <th>{{item[3}}</th>
+                <th>{{item[4]}}</th>
+                <th>
+                    <a href="beli_tiket.html?id_pertandingan={{item[0]}}" class="btn btn-primary">Pilih</a>
+                </th>
+            <tr>
+            {% endfor %}
+        </body>
+    </table>
+    
+</body>
+
+{% endblock content %}

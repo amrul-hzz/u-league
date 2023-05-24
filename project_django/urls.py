@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from mengelola_tim.views import mengelola_tim
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('manage_pertandingan/', include('manage_pertandingan.urls')),
     path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
+    path('pembelian_tiket/', include('pembelian_tiket.urls')),
 ]
