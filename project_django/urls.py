@@ -19,7 +19,7 @@ from mengelola_tim.views import mengelola_tim
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
-    # path('pembuatan_pertandingan/', include('pembuatan_pertandingan.urls')),
+    path('pembuatan_pertandingan/', include('pembuatan_pertandingan.urls')),
     path('mengelolatim/', include('mengelola_tim.urls')),
     path('mulairapat/', include('mulai_rapat.urls')),
     path('authentication/', include('authentication.urls')),

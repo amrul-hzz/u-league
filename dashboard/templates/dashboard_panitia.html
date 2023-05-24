@@ -130,7 +130,7 @@
 <body>
   <nav>
     <div class="navbar">
-      <a target="_parent" href="#dashboard">Dashboard</a>
+      <a target="_parent" href="/dashboard/dashboard_panitia/">Dashboard</a>
       <a target="_parent" href="/mulairapat/">Rapat</a>
       <li class="dropdown">
         <a href="#" class="dropbtn">Manage Pertandingan</a>
@@ -177,18 +177,22 @@
           </tr>
         </table>
         <h2>Daftar Rapat</h2>
+        {% for data in data_rapat %}
         <table>
           <tr>
-            <th>ID Pertandingan</th>
+            <th>Tim Bertanding</th>
             <th>Tanggal dan Waktu</th>
           </tr>
           <tr>
-            {% for i in rapat %}
+            {% for i in data.rapat %}
             <td>{{i.id_pertandingan}}</td>
             <td>{{i.datetime}}</td>
             {% endfor %}
           </tr>
         </table>
+        {% empty %}
+        <h1>Belum Ada Rapat</h1>
+        {% endfor %}
     </div>
 </body>
 

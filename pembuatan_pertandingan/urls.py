@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import get_semua_pertandingan, batalkan_peminjaman
+from .views import get_semua_pertandingan, get_avail_stadium
 
 urlpatterns = [
-    path('batalkan/<waktu>/<stadium>/', batalkan_peminjaman, name='batalkan_peminjaman'),
-    path('semua_pertandingan/', get_semua_pertandingan, name='get_semua_pertandingan'),
+    path('semua_pertandingan/', get_semua_pertandingan, name='semua_pertandingan'),
+    path('buat_pertandingan/', get_avail_stadium, name='buat_pertandingan'),
+
 ]

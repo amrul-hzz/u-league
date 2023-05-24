@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
-from django.http import JsonResponse
+from django.contrib import messages
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
@@ -43,11 +43,11 @@ def show_dashboard(request):
 
 def show_dashboard_manajer(request):
     cursor = connection.cursor()
-    # username_manajer = request.session("username")
+    username_manajer = request.session['username']
     cursor.execute(f"""
     SELECT id_manajer
     FROM MANAJER
-    WHERE username = 'vdeantoni15'
+    WHERE username = '{username_manajer}'
     """)
 
     id_manajer = str(cursor.fetchone()[0])
@@ -67,17 +67,33 @@ def show_dashboard_manajer(request):
     WHERE id_manajer = '{id_manajer}'
     """)
 
-    nama_tim = str(cursor.fetchone()[0])
-    print(nama_tim)
+    nama_tim = None
 
-    cursor.execute(f"""
-    SELECT *
-    FROM PEMAIN
-    WHERE nama_tim = '{nama_tim}'
-    """)
+    try:
+        nama_tim = str(cursor.fetchone()[0])
 
+        cursor.execute(f"""
+        SELECT *
+        FROM PEMAIN
+        WHERE nama_tim = '{nama_tim}'
+        """)
+
+    except Exception as e:
+        messages.error(request,e)
+
+    nama_univ = None
+    
+    try:
+        cursor.execute(f"""
+        SELECT universitas
+        FROM TIM
+        WHERE nama_tim = '{nama_tim}'
+        """)
+        nama_univ = cursor.fetchone()[0]
+    except Exception as e:
+        messages.error(request,e)
+        
     data_pemain = cursor.fetchall()
-
     pemain = []
 
     indexing = 1
@@ -91,6 +107,17 @@ def show_dashboard_manajer(request):
                 }
             )
             indexing += 1
+    
+    data_tim = []
+
+    if nama_tim:
+        data_tim.append(
+            {
+                "nama_tim":nama_tim,
+                "nama_univ": nama_univ,
+                "pemain":pemain
+            }
+        )
 
     return render(request, 'dashboard_manajer.html', {
         "nama_depan": str(data_manajer[1]),
@@ -99,25 +126,22 @@ def show_dashboard_manajer(request):
         "email": str(data_manajer[4]),
         "alamat": str(data_manajer[5]),
         "status": str(data_manajer[7]),
-        "nama_tim": nama_tim,
-        "pemain": pemain,
+        "data_tim":data_tim
     })
 
 def show_dashboard_panitia(request):
     cursor = connection.cursor()
-    # username_panitia = request.session("username")
+    username_panitia = request.session['username']
     cursor.execute(f"""
     SELECT id_panitia, jabatan
     FROM PANITIA
-    WHERE username = 'jspackmank'
+    WHERE username = '{username_panitia}'
     """)
 
     data_panitia = cursor.fetchone()
     id_panitia = str(data_panitia[0])
-    print(id_panitia)
 
     jabatan_panitia = str(data_panitia[1])
-    print(jabatan_panitia)
 
     cursor.execute(f"""
     SELECT *
@@ -128,11 +152,16 @@ def show_dashboard_panitia(request):
 
     data_final = cursor.fetchone()
 
-    cursor.execute(f"""
-    SELECT *
-    FROM RAPAT
-    WHERE perwakilan_panitia = '{id_panitia}'
-    """)
+    data_rapat = None
+
+    try:
+        cursor.execute(f"""
+        SELECT *
+        FROM RAPAT
+        WHERE perwakilan_panitia = '{id_panitia}'
+        """)
+    except Exception as e:
+        messages.error(request,e)
 
     data_rapat = cursor.fetchall()
 
@@ -155,5 +184,5 @@ def show_dashboard_panitia(request):
         "alamat": data_final[5],
         "status": data_final[7],
         "jabatan": jabatan_panitia,
-        "rapat": rapat,
+        "data_rapat": data_rapat,
     })

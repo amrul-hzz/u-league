@@ -40,11 +40,6 @@
       background-color: #f2f2f2;
     }
 
-    .belum-ada {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-    }
     /* navbar styles */
     .navbar {
           background-color: #333;
@@ -84,12 +79,32 @@
           background-color: #ddd;
           color: black;
         }
+        button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+    }
+    .btn-container {
+
+        text-align: center;
+        margin: auto;
+    }
+
+    .btn-daftar {
+      display: flex;
+        justify-content: center;
+    }
 </style>
 
 <body>
   <nav>
     <div class="navbar">
-        <a target="_parent" href="../dashboard/dashboard_manajer.html">Dashboard</a>
+        <a target="_parent" href="/dashboard/dashboard_manajer.html">Dashboard</a>
         <a target="_parent" href="/mengelolatim/">Mengelola Tim</a>
         <a target="_parent" href="/peminjaman_stadium/">Peminjaman Stadium</a>
         <a target="_parent" href="../r_list_pertandingan/InfoListPertandingan.html">List Pertandingan</a>
@@ -131,20 +146,30 @@
 
     <div class="container">
         <h2>Informasi Tim</h2>
-
+        {% for data in data_tim %}
         <table>
             <tr>
                 <th>Nama Tim</th>
-                <td>{{nama_tim}}</td>
+                <td>{{data.nama_tim}} - {{data.nama_univ}}</td>
               </tr>
-              {% for i in pemain %}
+              {% for i in data.pemain %}
               <tr>
                 <th>Anggota {{i.indeks}}</th>
                 <td>{{i.nama_pemain}}</td>
               </tr>
               {% endfor %}
         </table>
+        {% empty %}
+        <h1>Belum Membuat Tim</h1>
+        {% endfor %}
     </div>
+    <br>
+    <br>
+    <div class="button-container">
+      <a href="/mengelolatim/create_tim/" class="btn-daftar"><button>Daftarkan Tim</button></a>
+    </div>
+    <br>
+    <br>
 </body>
 
 {% endblock content %}

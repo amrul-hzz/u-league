@@ -91,7 +91,7 @@
 <body>
     <nav>
         <div class="navbar">
-            <a target="_parent" href="../dashboard/dashboard_manajer.html">Dashboard</a>
+            <a target="_parent" href="/dashboard/dashboard_manajer/">Dashboard</a>
             <a target="_parent" href="/mengelolatim/">Mengelola Tim</a>
             <a target="_parent" href="/peminjaman_stadium/">Peminjaman Stadium</a>
             <a target="_parent" href="../r_list_pertandingan/InfoListPertandingan.html">List Pertandingan</a>
@@ -99,6 +99,7 @@
             <a target="_parent" id="logout-btn" href="../c_login_register/LoginRegisterPage.html">Logout</a>
           </div>
     </nav>
+    {% for data in data_tim %}
     <h1><b>{{nama_tim}} - {{nama_univ}}</b></h1>
     <h2><b>Pemain</b></h2>
     <table class="min-w-full divide-y divide-gray-200">
@@ -112,17 +113,17 @@
             <th class="py-3 px-6 bg-gray-100 text-black-600">Jenjang</th>
             <th class="py-3 px-6 bg-gray-100 text-black-600">Action</th>
         </tr>
-        {% for i in pemain %}
+        {% for i in data.pemain %}
         <tr>
-            <td class="py-4 px-6">{{i.nama_pemain}}</td>
-            <td class="py-4 px-6">{{i.no_hp}}</td>
-            <td class="py-4 px-6">{{i.tanggal_lahir}}</td>
-            <td class="py-4 px-6">{{i.is_captain}}</td>
-            <td class="py-4 px-6">{{i.posisi}}</td>
-            <td class="py-4 px-6">{{i.npm}}</td>
-            <td class="py-4 px-6">{{i.jenjang}}</td>
+            <td class="py-4 px-6">{{data.nama_pemain}}</td>
+            <td class="py-4 px-6">{{data.no_hp}}</td>
+            <td class="py-4 px-6">{{data.tanggal_lahir}}</td>
+            <td class="py-4 px-6">{{data.is_captain}}</td>
+            <td class="py-4 px-6">{{data.posisi}}</td>
+            <td class="py-4 px-6">{{data.npm}}</td>
+            <td class="py-4 px-6">{{data.jenjang}}</td>
             <td class="py-4 px-6">
-                {% if i.is_captain == True %}
+                {% if data.is_captain == True %}
                 <button>Delete</button>
                 {% else %}
                 <a href="/mengelolatim/make_captain/{{i.id_pemain}}"><button> Make Captain</button></a>
@@ -168,6 +169,9 @@
         <br>
         <br>
     </div>
+    {% empty %}
+    <h1>Belum Membuat Tim</h1>
+    {% endfor %}
 </body>
 
 {% endblock content %}
