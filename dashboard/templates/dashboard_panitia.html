@@ -177,22 +177,22 @@
           </tr>
         </table>
         <h2>Daftar Rapat</h2>
-        {% for data in data_rapat %}
         <table>
           <tr>
-            <th>Tim Bertanding</th>
+            <th>ID Pertandingan</th>
             <th>Tanggal dan Waktu</th>
           </tr>
+          {% for i in rapat %}
           <tr>
-            {% for i in data.rapat %}
             <td>{{i.id_pertandingan}}</td>
             <td>{{i.datetime}}</td>
-            {% endfor %}
           </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2">Belum ada rapat </td>
+          </tr>
+          {% endfor %}
         </table>
-        {% empty %}
-        <h1>Belum Ada Rapat</h1>
-        {% endfor %}
     </div>
 </body>
 
