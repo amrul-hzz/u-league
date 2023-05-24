@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'pembuatan_pertandingan',
     'manage_pertandingan',
     'mulai_rapat',
-    'login',
-    'dashboard',
     'peminjaman_stadium',
 ]
 
