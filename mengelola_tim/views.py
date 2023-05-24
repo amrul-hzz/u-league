@@ -12,12 +12,12 @@ def create_tim(request):
     if request.method == "POST":
         nama_tim = request.POST.get("nama_tim")
         nama_universitas = request.POST.get("nama_universitas")
-        # id_manajer = request.session("nama")
+        id_manajer = request.session['username']
         try:
             cursor.execute(f"""
             INSERT INTO TIM VALUES ('{nama_tim}', '{nama_universitas}');
 
-            INSERT INTO TIM_MANAJER VALUES ('18aa5c26-6c61-454e-afd3-346fe7be83f7', '{nama_tim}');
+            INSERT INTO TIM_MANAJER VALUES ('{id_manajer}', '{nama_tim}');
             
             """)
 
@@ -61,9 +61,6 @@ def get_tim(request):
     # 4. ambil nama tim dan asal univ   
 
     try:
-        # nama_tim = str(cursor.fetchone()[0])
-        # print(nama_tim)
-
         cursor.execute(f"""
         SELECT *
         FROM PEMAIN
@@ -217,14 +214,9 @@ def add_pemain(request):
     if request.method == "POST":
         data_pemain = str(request.POST.get("dropdown")).split("-")
         nama_pemain = str(data_pemain[0]).split(" ")
-        print(data_pemain)
-        print(nama_pemain)
         nama_depan = nama_pemain[0]
         nama_belakang = nama_pemain[1]
         posisi = data_pemain[1]
-        print("nama depan: "+nama_depan)
-        print("nama belakang: "+nama_belakang)
-        print("posisi: "+posisi)
 
         cursor.execute(f"""
         SELECT id_pemain
@@ -234,7 +226,6 @@ def add_pemain(request):
         """)
 
         id_pemain = str(cursor.fetchone()[0])
-        print(id_pemain)
 
         try:
             cursor.execute(f"""
@@ -266,7 +257,6 @@ def add_pemain(request):
     return render(request, "daftar_pemain.html")
 
 def show_pelatih_null(request):
-    print("masuk sini ga")
     cursor = connection.cursor()
     cursor.execute(f"""
     SELECT *
@@ -309,15 +299,9 @@ def add_pelatih(request):
     if request.method == "POST":
         data_pelatih = str(request.POST.get("dropdown")).split("-")
         nama_pelatih = str(data_pelatih[0]).split(" ")
-        print(data_pelatih)
-        print(nama_pelatih)
         nama_depan = nama_pelatih[0]
         nama_belakang = nama_pelatih[1]
         spesialisasi = data_pelatih[1]
-        # nama_tim = request.session("nama_tim")
-        print("nama depan: "+nama_depan)
-        print("nama belakang: "+nama_belakang)
-        print("spesialisasi: "+spesialisasi)
 
         cursor.execute(f"""
         SELECT id
@@ -327,7 +311,6 @@ def add_pelatih(request):
         """)
 
         id_pelatih = str(cursor.fetchone()[0])
-        print(id_pelatih)
 
         try:
             cursor.execute(f"""
@@ -351,11 +334,9 @@ def add_pelatih(request):
             SET nama_tim = '{nama_tim}'
             WHERE id_pelatih = '{id_pelatih}';
             """)
-            print("masuk sini")
 
             return redirect("/mengelolatim/")
         except Exception as e:
-            print("masuk sini error")
             messages.error(request,e)
 
     return render(request, "daftar_pelatih.html")

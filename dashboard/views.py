@@ -51,7 +51,6 @@ def show_dashboard_manajer(request):
     """)
 
     id_manajer = str(cursor.fetchone()[0])
-    print(id_manajer)
 
     cursor.execute(f"""
     SELECT *
@@ -61,7 +60,6 @@ def show_dashboard_manajer(request):
     """)
 
     data_manajer = cursor.fetchone()
-    print(data_manajer)
 
     cursor.execute(f"""
     SELECT nama_tim
@@ -69,12 +67,10 @@ def show_dashboard_manajer(request):
     WHERE id_manajer = '{id_manajer}'
     """)
 
-
     nama_tim = None
 
     try:
         nama_tim = str(cursor.fetchone()[0])
-        print(nama_tim)
 
         cursor.execute(f"""
         SELECT *
@@ -144,10 +140,8 @@ def show_dashboard_panitia(request):
 
     data_panitia = cursor.fetchone()
     id_panitia = str(data_panitia[0])
-    print(id_panitia)
 
     jabatan_panitia = str(data_panitia[1])
-    print(jabatan_panitia)
 
     cursor.execute(f"""
     SELECT *
