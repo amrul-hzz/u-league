@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
+from authentication.views import *
 
 # Create your views here.
 def list_pemesanan(request):
@@ -7,7 +8,8 @@ def list_pemesanan(request):
     cursor.execute(f''' 
         select s.nama, p.start_datetime, p.end_datetime
         from stadium s, peminjaman p
-        where s.id_stadium = p.id_stadium;
+        where s.id_stadium = p.id_stadium
+        order by p.start_datetime desc;
     ''')
     pemesanan = cursor.fetchall()
 
@@ -42,6 +44,35 @@ def pilih_stadium(request):
     context = {'stadium_list': stadium_list}
     return render(request, "pilih_stadium.html", context)
 
+def add_pemesanan(request):
+    if request.method == "POST":
+        tanggal = request.POST.get("date")
+        id_stadium = request.POST.get("id_stadium")
+        username = request.session['username']
+        cursor = connection.cursor()
+
+        cursor.execute(
+            f"""
+            SELECT id_manajer
+            FROM manajer
+            WHERE username = '{username}'
+            """
+        )
+        id_manajer = cursor.fetchone()[0]
+
+        try:
+            cursor.execute(f"""
+            INSERT INTO PEMINJAMAN (id_manajer, start_datetime, end_datetime, id_stadium)
+            VALUES ('{id_manajer}', '{tanggal}', '{tanggal}', '{id_stadium}');
+            """)
+            return redirect("/peminjaman_stadium/")
+        except Exception as e:
+            messages.error(request, e)
+    
+    # Handle request method other than POST
+    # return render(request, "nama_template.html")
+
+    
 # def list_waktu(request):
 #     date = request.POST.get('date')
 #     id_stadium = request.POST.get('id_stadium')
