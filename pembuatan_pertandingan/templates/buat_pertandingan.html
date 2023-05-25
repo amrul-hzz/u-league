@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block meta %}
     <title>Buat Pertandingan</title>
     <style>
         body {
@@ -50,9 +49,14 @@
             background-color: #45a049;
         }
     </style>
-</head>
+{% endblock %}
+
+{% block content %}
 
 <body>
+    {% include 'navbar_manajer.html' %}
+    <br><br>
+
     <h1>BUAT PERTANDINGAN</h1>
     <form action="/pembuatan_pertandingan/submit_pertandingan/{{id_pertandingan}}" method="POST">
         {% csrf_token %}
@@ -138,4 +142,4 @@
     
 </body>
 
-</html>
+{% endblock content %}

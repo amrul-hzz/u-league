@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block meta %}
   <title>List Pertandingan</title>
   <style>
     body {
@@ -47,9 +46,14 @@
       z-index: 9999;
     }
   </style>
-</head>
+{% endblock %}
+
+{% block content %}
 
 <body>
+  {% include 'navbar_manajer.html' %}
+  <br><br>
+
   <h2>LIST PERTANDINGAN</h2>
   <table>
     <thead>
@@ -238,4 +242,4 @@
   </script>
 </body>
 
-</html>
+{% endblock content %}
