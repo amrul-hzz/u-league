@@ -148,17 +148,31 @@
       if (id.length === 0) {
         teamCell.innerHTML = '? vs ?';
         // ADD
-        var addButton = document.createElement('div');
-        addButton.className = 'button';
+        var formUpdate = document.createElement('form');
+        formUpdate.action = 'pertandingan_baru/';
+        formUpdate.method = 'POST';
+        console.log(teamCell.getAttribute('value'))
+
+        var csrfTokenElementUpdate = document.createElement('input');
+        csrfTokenElementUpdate.type = 'hidden';
+        csrfTokenElementUpdate.name = 'csrfmiddlewaretoken';
+        csrfTokenElementUpdate.value = '{{ csrf_token }}';
+
+        formUpdate.appendChild(csrfTokenElementUpdate);
+
+        var updateButton = document.createElement('div');
+        updateButton.className = 'button';
 
         var inputElement = document.createElement('input');
         inputElement.type = 'submit';
         inputElement.value = 'Add';
+        inputElement.method = 'POST';
         inputElement.style.textAlign = 'center';
 
-        addButton.appendChild(inputElement);
+        updateButton.appendChild(inputElement);
+        formUpdate.appendChild(updateButton);
+        actionCell.appendChild(formUpdate);
 
-        actionCell.appendChild(addButton);
       } else {
         // UPDATE
         var formUpdate = document.createElement('form');

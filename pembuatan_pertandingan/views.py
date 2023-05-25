@@ -128,3 +128,44 @@ def create_pertandingan(request, row_id):
         cursor.execute("UPDATE PERTANDINGAN SET id_stadium = %s WHERE id_pertandingan = %s", [request.POST['id-stadium'], row_id])
         
         return redirect ('/pembuatan_pertandingan/')
+
+def make_new_pertandingan(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, CONCAT(nama_depan, ' ', nama_belakang) FROM NON_PEMAIN WHERE id IN (SELECT id_wasit FROM WASIT)")
+        data_wasit = cursor.fetchall()
+
+    result_wasit = []
+
+    for i in range(len(data_wasit)):
+        result_wasit.append(
+            data_wasit[i]
+        )
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM TIM_PERTANDINGAN tp JOIN TIM t ON tp.nama_tim = t.nama_tim")
+        data_tim = cursor.fetchall()
+
+    result_tim = []
+
+    for i in range(len(data_tim)):
+        result_tim.append(
+            data_tim[i]
+        )
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id_stadium, nama FROM STADIUM")
+        data_stadium = cursor.fetchall()
+
+    result_stadium = []
+
+    for i in range(len(data_stadium)):
+        result_stadium.append(
+            data_stadium[i]
+        )
+
+    context = {'wasits': result_wasit,
+                'tims': result_tim,
+                'stadiums': result_stadium,
+                }
+
+    return render(request, 'new_pertandingan.html', context)
