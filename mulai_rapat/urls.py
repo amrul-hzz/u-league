@@ -3,7 +3,7 @@ from mulai_rapat.views import *
 app_name = "mulai_rapat"
 
 urlpatterns = [
-    path('', pilih_pertandingan, name=''),
-    path('rapat_pertandingan/<str:pertandingan>/', rapat_pertandingan, name='rapat_pertandingan'),
-    path('create_rapat/<path:pertandingan>', create_rapat, name='create_rapat'),
+    path('', mulai_rapat, name=''),
+    path('rapat_pertandingan/<str:tim1>/<str:tim2>/', rapat_pertandingan, name='rapat_pertandingan'),
+    # path('create_rapat/>', create_rapat, name='create_rapat'),
 ]

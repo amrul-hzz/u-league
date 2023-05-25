@@ -1,114 +1,112 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db import connection
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
-def pilih_pertandingan(request):
+def mulai_rapat(request):
     cursor = connection.cursor()
+
+    # get daftar pertandingan
     cursor.execute(f'''
-       SELECT
-            CONCAT(tp1.Nama_Tim, ' vs ', tp2.Nama_Tim) AS "Tim Bertanding",
-            s.Nama AS "Stadium",
-            p.Start_DateTime || ' - ' || p.End_DateTime AS "Tanggal dan Waktu"
-        FROM
-            TIM_PERTANDINGAN tp1
-            INNER JOIN TIM_PERTANDINGAN tp2 ON tp1.ID_Pertandingan = tp2.ID_Pertandingan
-            INNER JOIN PERTANDINGAN p ON tp1.ID_Pertandingan = p.ID_Pertandingan
-            INNER JOIN STADIUM s ON p.Stadium = s.ID_Stadium
-        WHERE
-            tp1.Nama_Tim < tp2.Nama_Tim;
-    ''') # '<' to ensure theres only 1 row for each match
+        SELECT * FROM PERTANDINGAN;
+    ''')
     pertandingan = cursor.fetchall()
-    cursor.close()
-    # print(pertandingan)
 
-    cursor = connection.cursor()
-    cursor.execute(f'''
-        SELECT
-            p.ID_Pertandingan,
-            tma.ID_Manajer AS id_manajer_tim_a,
-            tmb.ID_Manajer AS id_manajer_tim_b
-        FROM
-            PERTANDINGAN p
-        JOIN TIM_PERTANDINGAN tpa ON p.ID_Pertandingan = tpa.ID_Pertandingan
-        JOIN TIM_MANAJER tma ON tpa.Nama_Tim = tma.Nama_Tim
-        JOIN TIM_PERTANDINGAN tpb ON p.ID_Pertandingan = tpb.ID_Pertandingan
-        JOIN TIM_MANAJER tmb ON tpb.Nama_Tim = tmb.Nama_Tim
-        WHERE
-            tma.ID_Manajer > tmb.ID_Manajer;
-    ''')
-    rapat_util = cursor.fetchall()
-    cursor.close()
-    # print(rapat_util)
-    #cek udah ada rapat atau belum
-    cursor = connection.cursor()
-    cursor.execute(f'''SELECT id_pertandingan FROM RAPAT where id_pertandingan = '{rapat_util[0][0]}';''')
-    rapat = cursor.fetchall()
-    bool_rapat = False #default
-    if len(rapat) > 0: #if there is a rapat
-        bool_rapat = True
-
-    
+    # get nama tim, waktu, stadium
     pertandingan_list = []
-    for i in range(len(pertandingan)):
+    for p in pertandingan:
+        # get nama tim
+        cursor.execute(f'''
+            select * from TIM_PERTANDINGAN where id_pertandingan = '{p[0]}';
+        ''')
+        tim = cursor.fetchall()
+
+        # get stadium
+        cursor.execute(f'''
+            select nama from PERTANDINGAN JOIN STADIUM ON stadium = id_stadium 
+            where stadium = '{p[3]}';
+        ''')
+        stadium = cursor.fetchall()
+
+        # cek apakah sudah ada rapat atau belum
+        cursor.execute(f'''
+            select id_pertandingan from RAPAT where id_pertandingan = '{p[0]}';
+        ''')
+        rapat = cursor.fetchall()
+        bool_rapat = False
+        if len(rapat) > 0: bool_rapat = True
+
+        # jadikan dalam bentuk dict
         pertandingan_list.append({
-            "tim_bertanding": pertandingan[i][0],
-            "stadium": pertandingan[i][1],
-            "tanggal_dan_waktu": pertandingan[i][2],
-
-
-            "id_pertandingan": str(rapat_util[i][0]),
-            "id_manajer_tim_a": str(rapat_util[i][1]),
-            "id_manajer_tim_b": str(rapat_util[i][2]),
-            "bool_rapat": bool_rapat
+            "tim1": tim[0][0],
+            "tim2": tim[1][0],
+            "waktu": p[1].strftime("%d %B %Y %H:%M") + " - " + p[2].strftime("%H:%M"),
+            "stadium": stadium[0][0],
+            "rapat": bool_rapat,
+            "id_pertandingan": p[0]
         })
-    
-    context = {'pertandingan_list': pertandingan_list}
-    return render(request, "pilih_pertandingan.html", context)
+        
+    return render(request, "pilih_pertandingan.html", {"pertandingan_list": pertandingan_list})
 
-def rapat_pertandingan(request, pertandingan):
-    # nama_tim = pertandingan.split(" vs ")
-
-    # convert string to dict
-    dict_pertandingan = eval(pertandingan)
-    context = {
-        'nama_tim': dict_pertandingan['tim_bertanding'],
-        'pertandingan': pertandingan
-        }
-    print(pertandingan)
-    
-    return render(request, "rapat_pertandingan.html", context)
-
-def create_rapat(request, pertandingan):
-    isi_rapat = request.POST.get('isi_rapat')
-    #debug console isi_rapat
-    print(isi_rapat)
-
-    # convert string to dict
-    dict_data = eval(pertandingan)
-
+def rapat_pertandingan(request, tim1, tim2):
     cursor = connection.cursor()
-    username = request.session.get('username')
-    print (username)
-    cursor.execute(f'''
-        SELECT id_panitia
-        FROM panitia
-        WHERE username = '{username}'
-    ''')
-    id_panitia = cursor.fetchone()[0]
+    if request.method == 'POST':
 
-    #dapetin timestamp
-    cursor.execute(f' SELECT CURRENT_TIMESTAMP;')
-    time = cursor.fetchall()[0][0]
-    
-    #format datetime
-    datetime = f"TO_TIMESTAMP('{time}', 'YYYY-MM-DD HH24:MI:SS.FF')"
-    print(datetime)
+        username_panitia = request.session.get('username')
 
-    cursor.execute(f'''
-        INSERT INTO RAPAT (id_pertandingan, datetime, perwakilan_panitia, manajer_tim_a, manajer_tim_b, isi_rapat)
-        VALUES ('{dict_data['id_pertandingan']}', {datetime},'{id_panitia}', '{dict_data['id_manajer_tim_a']}', '{dict_data['id_manajer_tim_b']}', '{isi_rapat}')
-    ''')
+        # get id pertandingan
+        cursor.execute(f'''
+            SELECT A.id_pertandingan 
+            FROM TIM_PERTANDINGAN A, TIM_PERTANDINGAN B
+            WHERE a.nama_tim = '{tim1}' AND b.nama_tim = '{tim2}' 
+            AND A.id_pertandingan = B.id_pertandingan;
+        ''')
+        id_pertandingan = cursor.fetchall()
+
+        #get id panitia
+        cursor.execute(f'''
+            SELECT id_panitia
+            FROM panitia
+            WHERE username = '{username_panitia}'
+        ''')
+        id_panitia = cursor.fetchall()
+
+        #get id_manajer tim a
+        cursor.execute(f'''
+            SELECT id_manajer
+            FROM tim_manajer
+            WHERE nama_tim = '{tim1}'
+        ''')
+        id_manajer_a = cursor.fetchall()
+
+        #get id_manajer tim b
+        cursor.execute(f'''
+            SELECT id_manajer
+            FROM tim_manajer
+            WHERE nama_tim = '{tim2}'
+        ''')
+        id_manajer_b = cursor.fetchall()
+
+        #get waktu rapat
+        cursor.execute(f''' select current_timestamp;''')
+        waktu_rapat = cursor.fetchall()
+
+        #get isi rapat
+        isi_rapat = request.POST.get('isi_rapat')
+        print(isi_rapat)
+
+        try:
+            #insert rapat
+            cursor.execute(f''' insert into rapat values ('{id_pertandingan[0][0]}', '{waktu_rapat[0][0]}', 
+            '{id_panitia[0][0]}', '{id_manajer_a[0][0]}', '{id_manajer_b[0][0]}', '{isi_rapat}');''')
+            print("insert rapat berhasil")
+            return redirect('/mulairapat/')
+        except Exception as e:
+            messages.error(request, e)
+            print(e)
     
-    return HttpResponseRedirect('/mulairapat/')
-    #kalo dashboard panitia udah selesai return yang ini 
-    # return HttpResponseRedirect('/dashboard/')
+    cursor.close()
+    return render(request, "rapat_pertandingan.html",{
+        'tim1' : tim1,
+        'tim2' : tim2
+    })
