@@ -1,10 +1,3 @@
-{% extends 'base.html' %}
-
-{% block meta %}
-<title>Register Penonton</title>
-{% endblock meta %}
-
-{% block content %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -72,9 +65,7 @@ input[type="submit"]:hover {
 </style>
 
 <body>
-    <form action="/authentication/create_penonton/" method="post">
-        {% csrf_token %}
-
+    <form>
 		<h2>Penonton Registration Form</h2>
 		<label for="username">Username:</label>
 		<input type="text" id="username" name="username" required>
@@ -82,11 +73,11 @@ input[type="submit"]:hover {
 		<label for="password">Password:</label>
 		<input type="password" id="password" name="password" required>
 		<br>
-		<label for="first_name">Nama Depan:</label>
-		<input type="text" id="first_name" name="first_name" required>
+		<label for="first-name">Nama Depan:</label>
+		<input type="text" id="first-name" name="first-name" required>
 		<br>
-        <label for="last_name">Nama Belakang:</label>
-		<input type="text" id="last_name" name="last_name" required>
+        <label for="last-name">Nama Belakang:</label>
+		<input type="text" id="last-name" name="last-name" required>
 		<br>
         <label for="phone">Nomor HP:</label>
 		<input type="text" id="phone" name="phone" required>
@@ -111,4 +102,3 @@ input[type="submit"]:hover {
 	</form>
 </body>
 </html>
-{% endblock content %}

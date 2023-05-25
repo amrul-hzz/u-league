@@ -156,7 +156,7 @@ def create_penonton(request):
         password = request.POST['password']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
-        phone_number = request.POST['phone_number']
+        phone_number = request.POST['phone']
         email = request.POST['email']
         address = request.POST['address']
         id_penonton = uuid.uuid4()

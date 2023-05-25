@@ -18,7 +18,7 @@
 
     <h1 style="text-align: center;">BELI TIKET</h1>
 
-    <form action="create_pembelian_tiket/{{id_pertandingan}}/" method="post">
+    <form action="/pembelian_tiket/create_pembelian_tiket/{{id_pertandingan}}/" method="post">
         {% csrf_token %}
 
         <label>Jenis Tiket:</label>
@@ -33,7 +33,7 @@
         <br>
 
         <label>Pembayaran:</label>
-        <select id="jenis-pembayaran" name="jenis-pembayaran">
+        <select id="jenis_pembayaran" name="jenis_pembayaran">
             <option value="ShopeePay">ShopeePay</option>
             <option value="Gopay">Gopay</option>
             <option value="Ovo">Ovo</option>
