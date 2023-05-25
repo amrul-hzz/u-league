@@ -14,6 +14,12 @@
 </style>
 
 <body>
+    {% if {{jenis_user}} == 'penonton'}
+        {% include 'navbar_penonton.html' %}
+    {% else %}
+        {% include 'navbar_manajer.html' %}
+    {% endif %}
+
     <h1 style="text-align: center;">LIST PERTANDINGAN</h1>
 
     <table border="1">

@@ -7,7 +7,11 @@ from authentication.views import *
 def list_pertandingan(request):
     if is_penonton(request.session['username']) == True or is_manajer(request.session['username']) == True:
 
-        # get id, start, end, stadium_id
+        jenis_user= 'manajer'
+        if (is_penonton(request.session['username'])):
+            jenis_user = 'penonton'
+
+        # get id
         cursor = connection.cursor()
         cursor.execute(f"""
         SELECT ID_Pertandingan FROM PERTANDINGAN;
@@ -64,6 +68,7 @@ def list_pertandingan(request):
             match_list.append(match)
 
         context = {
+            "jenis_user": jenis_user,
             "match_list": match_list,
         }
 
