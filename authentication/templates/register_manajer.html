@@ -52,6 +52,13 @@
 		<label for="umum">Umum</label><br>
 
 		<input type="submit" value="Submit">
+		{% if messages %}
+        <ul class="text-sm">
+        {% for message in messages %}
+          <li>Username sudah terdaftar</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
 	</form>
 </body>
 

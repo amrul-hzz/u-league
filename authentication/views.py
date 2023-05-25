@@ -113,7 +113,7 @@ def create_manajer(request):
         email = request.POST['email']
         address = request.POST['address']
         id_manajer = uuid.uuid4()
-
+        
         status = []
         if 'mahasiswa' in request.POST:
             status.append('mahasiswa')
@@ -125,21 +125,25 @@ def create_manajer(request):
             status.append('alumni')
         if 'umum' in request.POST:
             status.append('umum')
-  
+    
     cursor = connection.cursor()
-    cursor.execute(f""" 
-    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
 
-    INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
-
-    INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
-    """)
-
-    for s in status:
-        cursor = connection.cursor()
+    try:
         cursor.execute(f""" 
-        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+        INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+        INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+        INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
         """)
+
+        for s in status:
+            cursor = connection.cursor()
+            cursor.execute(f""" 
+            INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+            """)
+    except Exception as e:
+        messages.error(request,e)
 
     return redirect ("/authentication/login/")
 
@@ -170,19 +174,23 @@ def create_penonton(request):
             status.append('umum')
   
     cursor = connection.cursor()
-    cursor.execute(f""" 
-    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
 
-    INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
-
-    INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
-    """)
-
-    for s in status:
-        cursor = connection.cursor()
+    try:
         cursor.execute(f""" 
-        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_penonton}', '{s}')
+        INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+        INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+        INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
         """)
+
+        for s in status:
+            cursor = connection.cursor()
+            cursor.execute(f""" 
+            INSERT INTO STATUS_NON_PEMAIN VALUES('{id_penonton}', '{s}')
+            """)
+    except Exception as e:
+        messages.error(request,e)
 
     return redirect ("/authentication/login/")
 
