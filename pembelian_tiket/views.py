@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.http import HttpResponse
 from authentication.views import *
 
-# Create your views here.
 def pilih_stadium(request):
     if is_penonton(request.session['username']) == False:
         return HttpResponse('bukan penonton')

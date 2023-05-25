@@ -28,4 +28,6 @@ urlpatterns = [
     path('manage_pertandingan/', include('manage_pertandingan.urls')),
     path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
     path('pembelian_tiket/', include('pembelian_tiket.urls')),
+    path('list_pertandingan/', include('list_pertandingan.urls')),
+    path('history_rapat/', include('history_rapat.urls')),
 ]
