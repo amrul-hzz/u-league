@@ -89,7 +89,7 @@
         <label>Pilih Wasit Pembantu/Hakim Garis:</label>
         <select name="wasit-pembantu1" id="wasit-pembantu1">
             {% for wasit in wasits %}
-            <option value="{{ selected.1 }}">{{ selected.1.0 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -98,7 +98,7 @@
         <label>Pilih Wasit Pembantu/Hakim Garis:</label>
         <select name="wasit-pembantu2" id="wasit-pembantu2">
             {% for wasit in wasits %}
-            <option value="{{ selected.2 }}">{{ wasit.0 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -107,7 +107,7 @@
         <label>Pilih Wasit Cadangan:</label>
         <select name="wasit-cadangan" id="wasit-cadangan">
             {% for wasit in wasits %}
-            <option value="{{ selected.2 }}">{{ wasit.1 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -116,7 +116,7 @@
         <label>Tim 1:</label>
         <select name="tim1" id="tim1">
             {% for tim in tims %}
-            <option value="{{ selected.3 }}">{{ selected.3.0  }}</option>
+            <option value="{{ tim.1 }}">{{ tim.0 }}</option>
             {% endfor %}
         </select>
 
@@ -125,7 +125,7 @@
         <label>Tim 2:</label>
         <select name="tim2" id="tim2">
             {% for tim in tims %}
-            <option value="{{ selected.3 }}">{{ selected.3.1 }}</option>
+            <option value="{{ tim.1 }}">{{ tim.0 }}</option>
             {% endfor %}
         </select>
 
