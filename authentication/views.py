@@ -100,50 +100,6 @@ def is_penonton(username_input):
             return True
     return False
 
-
-# register penonton
-# def register_penonton(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         id_penonton = request.POST.get('id_penonton')
-#         nama_depan = request.POST.get('nama_depan')
-#         nama_belakang = request.POST.get('nama_belakang')
-#         nomor_hp = request.POST.get('nomor_hp')
-#         email = request.POST.get('email')
-#         alamat = request.POST.get('alamat')
-#         # debug all
-#         print(username, password, id_penonton, nama_depan, nama_belakang, nomor_hp, email, alamat)
-
-#         if (id_penonton != "" and username != "" and password != ""):
-#             with connection.cursor() as cursor:
-#                 try:
-#                     cursor.execute(f'''
-#                         INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
-#                         INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{nama_depan}', '{nama_belakang}', '{nomor_hp}', '{email}', '{alamat}');
-#                         INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
-#                     ''')
-
-#                     response = HttpResponse()
-#                     response.set_cookie('username', username)
-#                     response.set_cookie('password', password)
-#                     response.status_code = 200
-
-#                     show_dashboard_penonton(request)
-#                     return response
-                
-#                 except Exception as e:
-#                     print(e)
-#                     res = str(e).split('\n')[0]
-#                     messages.error(request, res)
-#         else:   
-#             messages.error(request, "Please fill all the fields")
-#     return render(request, 'cru_penonton_regis.html', {})
-
-# # show form register penonton
-# def show_register_penonton(request):
-#     return render(request, 'cru_penonton_regis.html', {})
-
 def register_manajer(request):
     return render (request, 'register_manajer.html')
 
@@ -183,6 +139,49 @@ def create_manajer(request):
         cursor = connection.cursor()
         cursor.execute(f""" 
         INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+        """)
+
+    return redirect ("/authentication/login/")
+
+def register_penonton(request):
+    return render (request, 'register_penonton.html')
+
+def create_penonton(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone_number = request.POST['phone_number']
+        email = request.POST['email']
+        address = request.POST['address']
+        id_penonton = uuid.uuid4()
+
+        status = []
+        if 'mahasiswa' in request.POST:
+            status.append('mahasiswa')
+        if 'dosen' in request.POST:
+            status.append('dosen')
+        if 'tendik' in request.POST:
+            status.append('tendik')
+        if 'alumni' in request.POST:
+            status.append('alumni')
+        if 'umum' in request.POST:
+            status.append('umum')
+  
+    cursor = connection.cursor()
+    cursor.execute(f""" 
+    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+    INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+    INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
+    """)
+
+    for s in status:
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_penonton}', '{s}')
         """)
 
     return redirect ("/authentication/login/")
