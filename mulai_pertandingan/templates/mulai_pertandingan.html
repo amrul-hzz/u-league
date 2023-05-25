@@ -12,34 +12,36 @@
 {% endblock meta %}
 
 {% block content %}
-    <center><h1>Peristiwa Tim {{nama_tim}}</h1></center>   
+    <center><h1>Mulai Pertandingan</h1></center>
     <div class="wrapper">
         <div class="box-content">
             <div class="content">
                 <div style="text-align: center; margin: 20px;">
-                    <div class="content-title" style="margin: 10px;">
-                        <h4>Peristiwa Tim</h4>
-                    </div>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Nama Pemain</th>
-                                <th scope="col">Peristiwa</th>
+                                <th>Tim 1</th>
+                                <th>Tim 2</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for data in peristiwa_pertandingan %}
                             <tr>
-                                <td>{{data.nama_depan}} {{data.nama_belakang}}</td>
-                                <td>{{data.jenis}}</td>
+                                <td>{{data.nama_tim.0}}  </td>
+                                <td>{{data.nama_tim.1}}</td>
+                                <td><a href="{% url 'mulai_pertandingan:show_pilih_peristiwa' id_pertandingan=data.id_pertandingan nama_tim=data.nama_tim.0 %}">
+                                        Masukkan Peristiwa Tim 1</a><br><br>
+                                    <a href="{% url 'mulai_pertandingan:show_pilih_peristiwa' id_pertandingan=data.id_pertandingan nama_tim=data.nama_tim.1 %}">
+                                        Masukkan Peristiwa Tim 2</a></td>
                             </tr>
-                        {% endfor %}
-                        </tr>
                         </tbody>
                     </table>
+
+                    <a href="{% url 'manage_pertandingan:show_manage_pertandingan' %}">
+                    Submit</a>
+
                 </div>
             </div>
         </div>
     </div>
-    
-{% endblock content %}
+{% endblock %}
