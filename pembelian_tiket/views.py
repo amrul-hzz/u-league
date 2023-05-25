@@ -12,7 +12,7 @@ def pilih_stadium(request):
     # get stadium name and id
     cursor = connection.cursor()
     cursor.execute(f"""
-    SELECT * FROM STADIUM
+    SELECT * FROM STADIUM;
     """)
     
     stadium_id = cursor.fetchall()[0]
@@ -39,7 +39,7 @@ def list_waktu_dan_pertandingan(request):
         # get stadium name
         cursor.execute(f"""
         SELECT * FROM STADIUM 
-        WHERE ID_stadium = {stadium_id}
+        WHERE ID_stadium = {stadium_id};
         """)
         stadium_name = cursor.fetchone()[1]
 
@@ -47,7 +47,7 @@ def list_waktu_dan_pertandingan(request):
         cursor.execute(f"""
         SELECT ID_Pertandingan,Start_Datetime, End_Datetime
         FROM PERTANDINGAN
-        WHERE {date} BETWEEN Start_datetime AND End_datetime
+        WHERE {date} BETWEEN Start_datetime AND End_datetime;
         """)
         rows = cursor.fetchall()
         match_list = []
@@ -63,7 +63,7 @@ def list_waktu_dan_pertandingan(request):
             cursor.execute(f"""
             SELECT Nama_Tim
             FROM TIM_PERTANDINGAN
-            WHERE ID_Pertandingan = {id_pertandingan}
+            WHERE ID_Pertandingan = {id_pertandingan};
             """)
             rows = cursor.fetchall()
             team1 = rows[0]
@@ -78,5 +78,32 @@ def list_waktu_dan_pertandingan(request):
         return render(request, 'list_waktu_dan_pertandingan.html', context)
      
 def beli_tiket(request, id_pertandingan):
+    if is_penonton(request.session['username']) == False:
+        return HttpResponse('bukan penonton')
     
+    context = {
+        "id_pertandingan": id_pertandingan,
+    }
      
+    return render(request, "beli_tiket.html", context)
+
+def create_pembelian_tiket(request, id_pertandingan):
+    if is_penonton(request.session['username']) == False:
+        return HttpResponse('bukan penonton')
+    cursor = connection.cursor()
+
+    if request.method == 'POST':
+        cursor.execute(f"""
+        SELECT COUNT(*) FROM PEMBELIAN_TIKET;
+        """)
+        ticket_cnt = cursor.fetchone()
+        nomor_receipt = 'R' + str(ticket_cnt)
+        id_penonton = request.session['username']
+        jenis_tiket = request.get('jenis_tiket')
+        jenis_pembayaran = request.get('jenis_pembayaran')
+
+        cursor.execute(f"""
+        INSERT INTO PEMBELIAN_TIKET VALUES ('{nomor_receipt}', '{id_penonton}', '{jenis_tiket}', '{jenis_pembayaran}', '{id_pertandingan}');
+        """)
+
+        return redirect("/dashboard/dashboard_penonton/")
