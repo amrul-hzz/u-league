@@ -5,7 +5,6 @@ from django.contrib import messages
 
 from django.views.decorators.csrf import csrf_exempt
 from pprint import pprint
-from dashboard.views import *
 from django.contrib.auth import logout
 import uuid
 
