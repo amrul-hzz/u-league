@@ -56,6 +56,7 @@ def show_dashboard_penonton(request):
         response['data_pertandingan'].append({'nama_tim_1': data['nama_tim_1'], 'nama_tim_2': data['nama_tim_2'], 
                                             'nama_stadium':data['nama_stadium'], 'start': data['start_datetime'], 
                                             'end': data['end_datetime']})
+        response['nama_stadium'] = data['nama_stadium']
     
     return render(request, 'dashboard_penonton.html', response)
 
