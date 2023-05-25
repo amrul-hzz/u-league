@@ -49,7 +49,7 @@ def verified(data):
 
 def logout_view(request):
     logout(request)
-    return redirect('login/')
+    return redirect('/authentication/login/')
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
