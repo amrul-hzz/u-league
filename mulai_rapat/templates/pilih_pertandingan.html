@@ -24,17 +24,21 @@
       <tbody>
         {% for pertandingan in pertandingan_list %}
         <tr>
-          <td class="py-2 px-4 border">{{ pertandingan.tim_bertanding }}</td>
+          <td class="py-2 px-4 border">{{ pertandingan.tim1 }} vs {{ pertandingan.tim2 }}</td>
           <td class="py-2 px-4 border">{{ pertandingan.stadium }}</td>
-          <td class="py-2 px-4 border">{{ pertandingan.tanggal_dan_waktu }}</td>
+          <td class="py-2 px-4 border">{{ pertandingan.waktu }}</td>
           <td class="flex justify-center py-2 px-4 border-b">
-            <a href="{% url 'mulai_rapat:rapat_pertandingan' pertandingan%}">
-              <button
-                class="bg-green-500 hover:bg-green-700 text-blue font-bold py-2 px-4 rounded-full"
-              >
-                Mulai Rapat
+            {% if pertandingan.rapat %}
+              <button class="bg-gray-400 cursor-not-allowed text-gray-700 font-bold py-2 px-4 rounded-full" disabled>
+                Sudah Rapat
               </button>
-            </a>
+            {% else %}
+            <a href="{% url 'mulai_rapat:rapat_pertandingan' pertandingan.tim1 pertandingan.tim2 %}">
+                <button class="bg-green-500 hover:bg-green-700 text-blue font-bold py-2 px-4 rounded-full">
+                  Mulai Rapat
+                </button>
+              </a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
