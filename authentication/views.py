@@ -126,22 +126,22 @@ def create_manajer(request):
         if 'umum' in request.POST:
             status.append('umum')
   
-    cursor = connection.cursor()
-    cursor.execute(f""" 
-    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
-
-    INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
-
-    INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
-    """)
-
-    for s in status:
         cursor = connection.cursor()
         cursor.execute(f""" 
-        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+        INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+        INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+        INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
         """)
 
-    return redirect ("/authentication/login/")
+        for s in status:
+            cursor = connection.cursor()
+            cursor.execute(f""" 
+            INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+            """)
+
+        return redirect ("/authentication/login/")
 
 def register_penonton(request):
     return render (request, 'register_penonton.html')
@@ -152,7 +152,7 @@ def create_penonton(request):
         password = request.POST['password']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
-        phone_number = request.POST['phone_number']
+        phone_number = request.POST['phone']
         email = request.POST['email']
         address = request.POST['address']
         id_penonton = uuid.uuid4()
