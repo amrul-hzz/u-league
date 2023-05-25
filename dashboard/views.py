@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib import messages
 from django.http import HttpResponse
-from authentication.views import is_penonton, is_manajer, is_panitia
+from authentication.views import *
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
