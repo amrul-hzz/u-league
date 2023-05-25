@@ -14,8 +14,10 @@
     <table border="1">
         <tr>
             <th>Rapat Tim</th>
+            <th>Nama Panitia</th>
             <th>Stadium</th>
             <th>Waktu</th>
+            <th>Action</th>
         </tr>
     
         {% for item in rapat_list %}
@@ -23,6 +25,10 @@
             <td>{{item.0}} vs The {{item.1}}</td>
             <td>{{item.2}}</td>
             <td>{{item.3}}</td>
+            <td>{{item.4}}</td>
+            <td>
+                <a href="">Lihat Laporan Rapat</a>
+            </td>
         </tr>
         {% endfor %}
 
