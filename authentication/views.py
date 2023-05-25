@@ -175,7 +175,7 @@ def create_penonton(request):
 
     INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
 
-    INSERT INTO PANITIA VALUES ('{id_penonton}', '{username}');
+    INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
     """)
 
     for s in status:
@@ -219,13 +219,13 @@ def create_panitia(request):
 
     INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
 
-    INSERT INTO PENONTON VALUES ('{id_penonton}', '{jabatan}', '{username}');
+    INSERT INTO PANITIA VALUES ('{id_penonton}', '{jabatan}', '{username}');
     """)
 
     for s in status:
         cursor = connection.cursor()
         cursor.execute(f""" 
-        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_penonton}', '{s}')
+        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_panitia}', '{s}')
         """)
 
     return redirect ("/authentication/login/")
