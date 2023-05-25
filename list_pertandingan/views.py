@@ -29,9 +29,28 @@ def list_pertandingan(request):
             SELECT Nama_Tim FROM TIM_PERTANDINGAN
             WHERE ID_Pertandingan = '{id}';
             """)
-            team1.append(str(cursor.fetchone()[0]))
-            team2.append(str(cursor.fetchone()[0]))
+            team1.append(cursor.fetchone()[0])
+            team2.append(cursor.fetchone()[0])
 
+        # exclude teams that arent managed
+        team_managed = []
+        if is_manajer(request.session['username']):
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT t.Nama_Tim
+            FROM TIM AS t, 
+                TIM_MANAJER AS tm,
+                MANAJER AS m
+            WHERE 
+                '{request.session['username']}' = m.username AND
+                m.ID_Manajer = tm.ID_Manajer AND
+                tm.Nama_Tim = t.Nama_Tim;
+            """)
+            team_managed.append(cursor.fetchall())
+
+        team_managed = team_managed[0]
+        team_managed = [x[0] for x in team_managed]
+        
         # get stadium id then stadium name
         cursor = connection.cursor()
         cursor.execute(f"""
@@ -50,7 +69,6 @@ def list_pertandingan(request):
             """)
             stadium_name.append(cursor.fetchone()[0])
           
-
         # get start 
         cursor = connection.cursor()
         cursor.execute(f"""
@@ -66,10 +84,12 @@ def list_pertandingan(request):
         """)
         end = cursor.fetchall()
         end = [x[0] for x in end]
-
+        
         # combine data
         match_list = []
         for i in range (0, len(id_pertandingan)):
+            if (team1[i] not in team_managed and team2[i] not in team_managed and is_manajer(request.session['username'])):
+                continue
             match = [team1[i], team2[i], stadium_name[i], start[i], end[i]]
             match_list.append(match)
 
