@@ -54,12 +54,27 @@
 
 <body>
     <h1>BUAT PERTANDINGAN</h1>
+    <form action="/buat_pertandingan/{{id_pertandingan}}" method="POST">
+        {% csrf_token %}
 
-    <form>
+        <label for="stadium-dropdown">Stadium:</label>
+        <select id="stadium-dropdown">
+            {% for stadium in stadiums %}
+            <option value="{{ stadium.0 }}">{{ stadium.1 }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="tanggal-calendar">Tanggal:</label>
+        <input type="date" id="tanggal-calendar">
+
+        <br><br>
+
         <label for="wasit_utama">Pilih Wasit Utama:</label>
         <select id="wasit_utama">
             {% for wasit in wasits %}
-                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -68,7 +83,7 @@
         <label for="wasit_pembantu">Pilih Wasit Pembantu/Hakim Garis:</label>
         <select id="wasit_pembantu">
             {% for wasit in wasits %}
-                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -77,7 +92,7 @@
         <label for="wasit_pembantu2">Pilih Wasit Pembantu/Hakim Garis:</label>
         <select id="wasit_pembantu2">
             {% for wasit in wasits %}
-                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -86,7 +101,7 @@
         <label for="wasit_cadangan">Pilih Wasit Cadangan:</label>
         <select id="wasit_cadangan">
             {% for wasit in wasits %}
-                <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
+            <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
         </select>
 
@@ -94,20 +109,18 @@
 
         <label for="tim1">Tim 1:</label>
         <select id="tim1">
-            <option value="timA">Tim A</option>
-            <option value="timB">Tim B</option>
-            <option value="timC">Tim C</option>
-            <!-- Add more options as needed -->
+            {% for tim in tims %}
+            <option value="{{ tim.1 }}">{{ tim.0 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
 
         <label for="tim2">Tim 2:</label>
         <select id="tim2">
-            <option value="timD">Tim D</option>
-            <option value="timE">Tim E</option>
-            <option value="timF">Tim F</option>
-            <!-- Add more options as needed -->
+            {% for tim in tims %}
+            <option value="{{ tim.1 }}">{{ tim.0 }}</option>
+            {% endfor %}
         </select>
 
         <br><br>
