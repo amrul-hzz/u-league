@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Pembelian Tiket</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    .beli-container{
+        text-align: center;
+    }
+   
+</style>
+
+<body>
+    {% include 'navbar_penonton.html' %}
+
+    <h1 style="text-align: center;">BELI TIKET</h1>
+
+    <form action="/pembelian_tiket/create_pembelian_tiket/{{id_pertandingan}}/" method="post">
+        {% csrf_token %}
+
+        <label>Jenis Tiket:</label>
+        <select id="jenis_tiket" name="jenis_tiket">
+            <option value="VIP">VIP</option>
+            <option value="Main East">Main East</option>
+            <option value="Kategori 1">Kategori 1</option>
+            <option value="Kategori 2">Kategori 2</option>
+        </select>
+        
+        <br>
+        <br>
+
+        <label>Pembayaran:</label>
+        <select id="jenis_pembayaran" name="jenis_pembayaran">
+            <option value="ShopeePay">ShopeePay</option>
+            <option value="Gopay">Gopay</option>
+            <option value="Ovo">Ovo</option>
+            <option value="Bank">Bank</option>
+        </select>
+        
+        <br>
+        <br>
+
+        <div class="beli-container">
+            <input type="submit" value="BELI" style="text-align: center;">
+        </div>
+
+    </form>
+
+    
+    
+</body>
+
+{% endblock content %}
