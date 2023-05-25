@@ -1,7 +1,14 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db import connection
+from django.contrib import messages
+
+from django.views.decorators.csrf import csrf_exempt
+from pprint import pprint
+from dashboard.views import *
 from django.contrib.auth import logout
 import uuid
+
 
 def landing(request):
     return render(request, 'landing.html')
@@ -94,6 +101,50 @@ def is_penonton(username_input):
             return True
     return False
 
+
+# register penonton
+# def register_penonton(request):
+#     if request.method == "POST":
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         id_penonton = request.POST.get('id_penonton')
+#         nama_depan = request.POST.get('nama_depan')
+#         nama_belakang = request.POST.get('nama_belakang')
+#         nomor_hp = request.POST.get('nomor_hp')
+#         email = request.POST.get('email')
+#         alamat = request.POST.get('alamat')
+#         # debug all
+#         print(username, password, id_penonton, nama_depan, nama_belakang, nomor_hp, email, alamat)
+
+#         if (id_penonton != "" and username != "" and password != ""):
+#             with connection.cursor() as cursor:
+#                 try:
+#                     cursor.execute(f'''
+#                         INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+#                         INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{nama_depan}', '{nama_belakang}', '{nomor_hp}', '{email}', '{alamat}');
+#                         INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
+#                     ''')
+
+#                     response = HttpResponse()
+#                     response.set_cookie('username', username)
+#                     response.set_cookie('password', password)
+#                     response.status_code = 200
+
+#                     show_dashboard_penonton(request)
+#                     return response
+                
+#                 except Exception as e:
+#                     print(e)
+#                     res = str(e).split('\n')[0]
+#                     messages.error(request, res)
+#         else:   
+#             messages.error(request, "Please fill all the fields")
+#     return render(request, 'cru_penonton_regis.html', {})
+
+# # show form register penonton
+# def show_register_penonton(request):
+#     return render(request, 'cru_penonton_regis.html', {})
+
 def register_manajer(request):
     return render (request, 'register_manajer.html')
 
@@ -136,3 +187,4 @@ def create_manajer(request):
         """)
 
     return redirect ("/authentication/login/")
+
