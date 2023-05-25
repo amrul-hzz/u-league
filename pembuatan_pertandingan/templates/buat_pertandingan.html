@@ -37,7 +37,7 @@
             box-sizing: border-box;
         }
 
-        button {
+        .button {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -46,7 +46,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+        .button:hover {
             background-color: #45a049;
         }
     </style>
@@ -54,11 +54,11 @@
 
 <body>
     <h1>BUAT PERTANDINGAN</h1>
-    <form action="/buat_pertandingan/{{id_pertandingan}}" method="POST">
+    <form action="/pembuatan_pertandingan/submit_pertandingan/{{id_pertandingan}}" method="POST">
         {% csrf_token %}
 
-        <label for="stadium-dropdown">Stadium:</label>
-        <select id="stadium-dropdown">
+        <label>Stadium:</label>
+        <select name="id-stadium" id="id-stadium">
             {% for stadium in stadiums %}
             <option value="{{ stadium.0 }}">{{ stadium.1 }}</option>
             {% endfor %}
@@ -66,13 +66,13 @@
 
         <br><br>
 
-        <label for="tanggal-calendar">Tanggal:</label>
+        <label>Tanggal:</label>
         <input type="date" id="tanggal-calendar">
 
         <br><br>
 
-        <label for="wasit_utama">Pilih Wasit Utama:</label>
-        <select id="wasit_utama">
+        <label>Pilih Wasit Utama:</label>
+        <select name="wasit-utama" id="wasit-utama">
             {% for wasit in wasits %}
             <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
@@ -80,8 +80,8 @@
 
         <br><br>
 
-        <label for="wasit_pembantu">Pilih Wasit Pembantu/Hakim Garis:</label>
-        <select id="wasit_pembantu">
+        <label>Pilih Wasit Pembantu/Hakim Garis:</label>
+        <select name="wasit-pembantu1" id="wasit-pembantu1">
             {% for wasit in wasits %}
             <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
@@ -89,8 +89,8 @@
 
         <br><br>
 
-        <label for="wasit_pembantu2">Pilih Wasit Pembantu/Hakim Garis:</label>
-        <select id="wasit_pembantu2">
+        <label>Pilih Wasit Pembantu/Hakim Garis:</label>
+        <select name="wasit-pembantu2" id="wasit-pembantu2">
             {% for wasit in wasits %}
             <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
@@ -98,8 +98,8 @@
 
         <br><br>
 
-        <label for="wasit_cadangan">Pilih Wasit Cadangan:</label>
-        <select id="wasit_cadangan">
+        <label>Pilih Wasit Cadangan:</label>
+        <select name="wasit-cadangan" id="wasit-cadangan">
             {% for wasit in wasits %}
             <option value="{{ wasit.0 }}">{{ wasit.1 }}</option>
             {% endfor %}
@@ -107,8 +107,8 @@
 
         <br><br>
 
-        <label for="tim1">Tim 1:</label>
-        <select id="tim1">
+        <label>Tim 1:</label>
+        <select name="tim1" id="tim1">
             {% for tim in tims %}
             <option value="{{ tim.1 }}">{{ tim.0 }}</option>
             {% endfor %}
@@ -116,8 +116,8 @@
 
         <br><br>
 
-        <label for="tim2">Tim 2:</label>
-        <select id="tim2">
+        <label>Tim 2:</label>
+        <select name="tim2" id="tim2">
             {% for tim in tims %}
             <option value="{{ tim.1 }}">{{ tim.0 }}</option>
             {% endfor %}
@@ -125,15 +125,17 @@
 
         <br><br>
 
-        <button id="next-button">NEXT</button>
+        <div class="button">
+            <input type="submit" value="SUBMIT" style="text-align: center;">
+        </div>
     </form>
 
-    <script>
-        // JavaScript code can be added here to handle button click events or perform other actions
-        document.getElementById("next-button").addEventListener("click", function () {
-            // Code to execute when the NEXT button is clicked
-        });
-    </script>
+    
+<script>
+    document.getElementById("myDropdown").selectedIndex = 1; // Set Option 2 as the default selection
+  </script>
+
+    
 </body>
 
 </html>

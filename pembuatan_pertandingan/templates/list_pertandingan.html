@@ -154,7 +154,7 @@
       } else {
         // UPDATE
         var formUpdate = document.createElement('form');
-        formUpdate.action = 'pilih_pertandingan/' + teamCell.getAttribute('value') + '/';
+        formUpdate.action = 'create_pertandingan/' + teamCell.getAttribute('value') + '/';
         formUpdate.method = 'POST';
 
         var updateButton = document.createElement('div');
@@ -171,7 +171,7 @@
         actionCell.appendChild(updateButton);
 
         updateButton.addEventListener('click', function () {
-          window.location.href = "pilih_pertandingan/" + teamCell.getAttribute('value') + "/";
+          window.location.href = "buat_pertandingan/" + teamCell.getAttribute('value') + "/";
         });
 
         // DELETE
