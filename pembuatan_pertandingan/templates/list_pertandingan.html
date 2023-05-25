@@ -1,56 +1,62 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-  <title>List Pertandingan</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+{% block meta %}
+<title>List Pertandingan</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
 
-    h2 {
-      text-align: center;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-    th,
-    td {
-      padding: 8px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
+  th,
+  td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
 
-    th {
-      background-color: #f2f2f2;
-    }
+  th {
+    background-color: #f2f2f2;
+  }
 
-    .button {
-      padding: 6px 10px;
-      font-size: 14px;
-    }
+  .button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
 
-    .notification {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px;
-      background-color: #f0f0f0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 9999;
-    }
-  </style>
-</head>
+  .notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 
 <body>
+  {% include 'navbar_manajer.html' %}
+  <br><br>
+
   <h2>LIST PERTANDINGAN</h2>
+  <br><br>
+
   <table>
     <thead>
       <tr>
@@ -136,26 +142,50 @@
     for (var i = 0; i < teamCells.length; i++) {
       var teamCell = teamCells[i];
       var actionCell = actionCells[i];
+      var id = teamCell.getAttribute('value');
       // console.log(teamCell.getAttribute('value'))
 
-      if (teamCell.innerHTML.trim() === '? vs ?') {
+      if (id.length === 0) {
+        teamCell.innerHTML = '? vs ?';
         // ADD
-        var addButton = document.createElement('div');
-        addButton.className = 'button';
+        var formUpdate = document.createElement('form');
+        formUpdate.action = 'pertandingan_baru/';
+        formUpdate.method = 'POST';
+        console.log(teamCell.getAttribute('value'))
+
+        var csrfTokenElementUpdate = document.createElement('input');
+        csrfTokenElementUpdate.type = 'hidden';
+        csrfTokenElementUpdate.name = 'csrfmiddlewaretoken';
+        csrfTokenElementUpdate.value = '{{ csrf_token }}';
+
+        formUpdate.appendChild(csrfTokenElementUpdate);
+
+        var updateButton = document.createElement('div');
+        updateButton.className = 'button';
 
         var inputElement = document.createElement('input');
         inputElement.type = 'submit';
         inputElement.value = 'Add';
+        inputElement.method = 'POST';
         inputElement.style.textAlign = 'center';
 
-        addButton.appendChild(inputElement);
+        updateButton.appendChild(inputElement);
+        formUpdate.appendChild(updateButton);
+        actionCell.appendChild(formUpdate);
 
-        actionCell.appendChild(addButton);
       } else {
         // UPDATE
         var formUpdate = document.createElement('form');
-        formUpdate.action = 'create_pertandingan/' + teamCell.getAttribute('value') + '/';
+        formUpdate.action = 'buat_pertandingan/' + teamCell.getAttribute('value') + '/';
         formUpdate.method = 'POST';
+        console.log(teamCell.getAttribute('value'))
+
+        var csrfTokenElementUpdate = document.createElement('input');
+        csrfTokenElementUpdate.type = 'hidden';
+        csrfTokenElementUpdate.name = 'csrfmiddlewaretoken';
+        csrfTokenElementUpdate.value = '{{ csrf_token }}';
+
+        formUpdate.appendChild(csrfTokenElementUpdate);
 
         var updateButton = document.createElement('div');
         updateButton.className = 'button';
@@ -168,11 +198,7 @@
 
         updateButton.appendChild(inputElement);
         formUpdate.appendChild(updateButton);
-        actionCell.appendChild(updateButton);
-
-        updateButton.addEventListener('click', function () {
-          window.location.href = "buat_pertandingan/" + teamCell.getAttribute('value') + "/";
-        });
+        actionCell.appendChild(formUpdate);
 
         // DELETE
         var formDelete = document.createElement('form');
@@ -183,7 +209,6 @@
         csrfTokenElementDelete.type = 'hidden';
         csrfTokenElementDelete.name = 'csrfmiddlewaretoken';
         csrfTokenElementDelete.value = '{{ csrf_token }}';
-
         formDelete.appendChild(csrfTokenElementDelete);
 
         var deleteButton = document.createElement('div');
@@ -196,46 +221,12 @@
 
         deleteButton.appendChild(inputElement);
         formDelete.appendChild(deleteButton)
-
         actionCell.appendChild(formDelete);
 
-        // deleteButton.addEventListener('click', function () {
 
-        //   var row = this.parentNode.parentNode;
-        //   var groupId = row.querySelector('td[id^="grupa"]');
-        //   var groupAction = row.querySelector('td[id^="action"]');
-        //   var row_id = pertandingans_json[0].substring(7, 43);
-        //   console.log('delete clicked')
-
-        //   var xhr = new XMLHttpRequest();
-        //   xhr.open('POST', '/delete_pertandingan/' + row_id + '/');
-        //   console.log(xhr.statusText)
-        //   console.log(pertandingans_json[0])
-
-        //   xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === XMLHttpRequest.DONE) {
-        //       console.log(xhr.status);
-        //       if (xhr.status === 200) {
-        //         // create pop up message
-        //         groupId.innerHTML = '? vs ?';
-
-        //       } else {
-        //         // Handle the error condition
-        //         var notification = document.getElementById("myNotification");
-        //         notification.style.display = "block";
-
-        //         // Hide the notification after 3 seconds
-        //         setTimeout(function () {
-        //           notification.innerHTML = "Gagal menghapus pertandingan";
-        //         }, 3000);
-        //       }
-        //     }
-        //   };
-        //   xhr.send();
-        // });
       }
     }
   </script>
 </body>
 
-</html>
+{% endblock content %}
