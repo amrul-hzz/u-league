@@ -37,6 +37,30 @@
 </div>
 
 <!-- Daftar Pertandingan -->
-<p class="h2 ms-5 mt-5">Daftar Pertandingan yang Akan Datang</p>
-<p class="h5 text-muted ms-5">Belum Memesan Pertandingan.</p>
+{% if nama_stadium %}
+<div class="container mt-5">
+    <h1 class="mb-4" style="text-align: center;">List Pertandingan</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Tim Bertanding</th>
+                <th scope="col">Stadium</th>
+                <th scope="col">Tanggal dan Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_pertandingan %}
+            <tr>
+                <td>{{data.nama_tim_1}} vs {{data.nama_tim_2}}</td>
+                <td>{{data.nama_stadium}}</td>
+                <td>{{data.start}} - {{data.end}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<h4>Belum Memesan Pertandingan</h4>
+{% endif %}
+
 {% endblock content %}

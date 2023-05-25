@@ -26,4 +26,5 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('manage_pertandingan/', include('manage_pertandingan.urls')),
     path('peminjaman_stadium/', include('peminjaman_stadium.urls')),
+    path('mulai_pertandingan/', include('mulai_pertandingan.urls')),
 ]
