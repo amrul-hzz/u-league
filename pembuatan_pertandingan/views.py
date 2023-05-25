@@ -65,17 +65,17 @@ def get_all_wasit_tim(request, row_id):
     selected = []
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT stadium FROM PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+        cursor.execute("SELECT stadium, nama FROM PERTANDINGAN p JOIN STADIUM s ON p.stadium=s.id_stadium WHERE id_pertandingan = %s", [row_id])
         selected_stadium = cursor.fetchall()
         selected.append(selected_stadium)
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id_wasit FROM WASIT_BERTUGAS WHERE id_pertandingan = %s AND posisi_wasit='Utama' ", [row_id])
+        cursor.execute("SELECT id_wasit, CONCAT(nama_depan, ' ', nama_belakang) FROM WASIT_BERTUGAS wb JOIN NON_PEMAIN np ON wb.id_wasit=np.id WHERE id_pertandingan = %s AND posisi_wasit='Utama' ", [row_id])
         selected_wasit_utama = cursor.fetchall()
         selected.append(selected_wasit_utama)
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id_wasit FROM WASIT_BERTUGAS WHERE id_pertandingan = %s AND posisi_wasit='Hakim Garis' ", [row_id])
+        cursor.execute("SELECT id_wasit, CONCAT(nama_depan, ' ', nama_belakang) FROM WASIT_BERTUGAS wb JOIN NON_PEMAIN np ON wb.id_wasit=np.id WHERE id_pertandingan = %s AND posisi_wasit='Hakim Garis' ", [row_id])
         selected_wasit_pembantu = cursor.fetchall()
         selected.append(selected_wasit_pembantu)
 
