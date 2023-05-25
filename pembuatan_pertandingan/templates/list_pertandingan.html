@@ -55,6 +55,8 @@
   <br><br>
 
   <h2>LIST PERTANDINGAN</h2>
+  <br><br>
+
   <table>
     <thead>
       <tr>
@@ -160,6 +162,13 @@
         var formUpdate = document.createElement('form');
         formUpdate.action = 'create_pertandingan/' + teamCell.getAttribute('value') + '/';
         formUpdate.method = 'POST';
+
+        var csrfTokenElementUpdate = document.createElement('input');
+        csrfTokenElementUpdate.type = 'hidden';
+        csrfTokenElementUpdate.name = 'csrfmiddlewaretoken';
+        csrfTokenElementUpdate.value = '{{ csrf_token }}';
+
+        formUpdate.appendChild(csrfTokenElementUpdate);
 
         var updateButton = document.createElement('div');
         updateButton.className = 'button';
