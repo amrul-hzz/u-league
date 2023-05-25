@@ -48,8 +48,8 @@ def list_pertandingan(request):
             """)
             team_managed.append(cursor.fetchall())
 
-        team_managed = team_managed[0]
-        team_managed = [x[0] for x in team_managed]
+            team_managed = team_managed[0]
+            team_managed = [x[0] for x in team_managed]
         
         # get stadium id then stadium name
         cursor = connection.cursor()
