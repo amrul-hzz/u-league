@@ -50,10 +50,6 @@
 </head>
 
 <body>
-  <div id="myNotification" class="notification">
-    <p>This is a pop-up notification!</p>
-  </div>
-
   <h2>LIST PERTANDINGAN</h2>
   <table>
     <thead>
@@ -129,6 +125,10 @@
     </tbody>
   </table>
 
+  <div id="myNotification" class="notification">
+    <p id="myNotificationText">Warning!</p>
+  </div>
+
   <script>
     // Get the team cells and action cells
     var teamCells = document.querySelectorAll('td[id^="grupa"], td[id^="grupb"], td[id^="grupc"], td[id^="grupd"]');
@@ -139,6 +139,7 @@
 
     // Loop through each team cell and update the action cell accordingly
     for (var i = 0; i < teamCells.length; i++) {
+      // console.log("temcells length" + i);
       var teamCell = teamCells[i];
       var actionCell = actionCells[i];
 
@@ -171,14 +172,13 @@
           var row = this.parentNode.parentNode;
           var groupId = row.querySelector('td[id^="grupa"]');
           var groupAction = row.querySelector('td[id^="action"]');
+          var row_id =  pertandingans_json[0].substring(7,43);
           console.log('delete clicked')
 
           var xhr = new XMLHttpRequest();
-          xhr.open('DELETE','/delete_pertandingan/' + pertandingans_json[0].substring(7,43) + '/', true);
-          console.log(pertandingans_json[0].substring(7,43))
+          xhr.open('POST','/delete_pertandingan/' + row_id + '/');
+          console.log(row_id)
           console.log(pertandingans_json[0])
-
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
           
           xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -194,7 +194,7 @@
 
                 // Hide the notification after 3 seconds
                 setTimeout(function () {
-                  notification.style.display = "Gagal menghapus pertandingan";
+                  notification.innerHTML = "Gagal menghapus pertandingan";
                 }, 3000);
               }
             }

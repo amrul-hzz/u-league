@@ -68,14 +68,15 @@ def get_all_wasit(request):
 
     return render(request, 'buat_pertandingan.html', {'wasits': result})
 
-def delete_pertandingan(row_id):
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
-            cursor.execute("DELETE FROM TIM_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
-            cursor.execute("DELETE FROM WASIT_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
-            cursor.execute("DELETE FROM PEMAIN_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
-    
-        return JsonResponse({'status': 'success'})
-    except Exception as e:
-        return JsonResponse({'status': 'failed'})
+def delete_pertandingan(request, row_id):
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+                cursor.execute("DELETE FROM TIM_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+                cursor.execute("DELETE FROM WASIT_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+                cursor.execute("DELETE FROM PEMAIN_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
+        
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'failed'})
