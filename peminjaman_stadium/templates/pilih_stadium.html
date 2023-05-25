@@ -14,7 +14,7 @@
     <div class="container mx-auto my-8">
         <h1 class="text-3xl flex justify-center font-bold mb-4">PEMINJAMAN STADIUM</h1>
 
-        <form id="stadiumForm" class="mx-auto w-full max-w-lg" action="{% url 'peminjaman_stadium:pilih_stadium' %}" method="POST">
+        <form id="stadiumForm" class="mx-auto w-full max-w-lg" action="{% url 'peminjaman_stadium:add_pemesanan' %}" method="POST">
             {% csrf_token %}
             <!-- tambah action janlup -->
             <div class="flex flex-wrap mb-6;">
@@ -28,7 +28,7 @@
             </div>
 
             <div class="flex flex-wrap mb-6;">
-                <label class="w-full mb-2" for="form">Tanggal:</label>
+                <label class="w-full mb-2"  for="form">Tanggal:</label>
                 <input type="date" class="border border-gray-400 p-2 rounded-lg" id="date" name="date">
             </div>
 
