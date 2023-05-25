@@ -212,40 +212,40 @@
 
         actionCell.appendChild(formDelete);
 
-        // deleteButton.addEventListener('click', function () {
+        deleteButton.addEventListener('click', function () {
 
-        //   var row = this.parentNode.parentNode;
-        //   var groupId = row.querySelector('td[id^="grupa"]');
-        //   var groupAction = row.querySelector('td[id^="action"]');
-        //   var row_id = pertandingans_json[0].substring(7, 43);
-        //   console.log('delete clicked')
+          var row = this.parentNode.parentNode;
+          var groupId = row.querySelector('td[id^="grupa"]');
+          var groupAction = row.querySelector('td[id^="action"]');
+          var row_id = pertandingans_json[0].substring(7, 43);
+          console.log('delete clicked')
 
-        //   var xhr = new XMLHttpRequest();
-        //   xhr.open('POST', '/delete_pertandingan/' + row_id + '/');
-        //   console.log(xhr.statusText)
-        //   console.log(pertandingans_json[0])
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/delete_pertandingan/' + row_id + '/');
+          console.log(xhr.statusText)
+          console.log(pertandingans_json[0])
 
-        //   xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === XMLHttpRequest.DONE) {
-        //       console.log(xhr.status);
-        //       if (xhr.status === 200) {
-        //         // create pop up message
-        //         groupId.innerHTML = '? vs ?';
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              console.log(xhr.status);
+              if (xhr.status === 200) {
+                // create pop up message
+                groupId.innerHTML = '? vs ?';
 
-        //       } else {
-        //         // Handle the error condition
-        //         var notification = document.getElementById("myNotification");
-        //         notification.style.display = "block";
+              } else {
+                // Handle the error condition
+                var notification = document.getElementById("myNotification");
+                notification.style.display = "block";
 
-        //         // Hide the notification after 3 seconds
-        //         setTimeout(function () {
-        //           notification.innerHTML = "Gagal menghapus pertandingan";
-        //         }, 3000);
-        //       }
-        //     }
-        //   };
-        //   xhr.send();
-        // });
+                // Hide the notification after 3 seconds
+                setTimeout(function () {
+                  notification.innerHTML = "Gagal menghapus pertandingan";
+                }, 3000);
+              }
+            }
+          };
+          xhr.send();
+        });
       }
     }
   </script>

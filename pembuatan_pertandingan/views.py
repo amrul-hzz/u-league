@@ -101,7 +101,7 @@ def delete_pertandingan(request, row_id):
         cursor.execute("DELETE FROM TIM_PERTANDINGAN WHERE id_pertandingan = %s", [row_id])
         cursor.execute("DELETE FROM WASIT_BERTUGAS WHERE id_pertandingan = %s", [row_id])
 
-        return redirect ('/pembuatan_pertandingan')
+        return redirect ('/pembuatan_pertandingan/')
         
 
 def create_pertandingan(request, row_id):
@@ -127,4 +127,4 @@ def create_pertandingan(request, row_id):
 
         cursor.execute("UPDATE PERTANDINGAN SET id_stadium = %s WHERE id_pertandingan = %s", [request.POST['id-stadium'], row_id])
         
-        return redirect ('/pembuatan_pertandingan')
+        return redirect ('/pembuatan_pertandingan/')
