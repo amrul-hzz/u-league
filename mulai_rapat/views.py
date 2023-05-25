@@ -100,7 +100,7 @@ def rapat_pertandingan(request, tim1, tim2):
             cursor.execute(f''' insert into rapat values ('{id_pertandingan[0][0]}', '{waktu_rapat[0][0]}', 
             '{id_panitia[0][0]}', '{id_manajer_a[0][0]}', '{id_manajer_b[0][0]}', '{isi_rapat}');''')
             print("insert rapat berhasil")
-            return redirect('/mulairapat/')
+            return redirect('/dashboard/dashboard_panitia/')
         except Exception as e:
             messages.error(request, e)
             print(e)
