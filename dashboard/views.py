@@ -126,6 +126,8 @@ def show_dashboard_manajer(request):
             }
         )
 
+    print("$$$$$$$$", data_manajer)
+
     return render(request, 'dashboard_manajer.html', {
         "nama_depan": str(data_manajer[1]),
         "nama_belakang": str(data_manajer[2]),
