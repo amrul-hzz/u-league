@@ -228,5 +228,5 @@ def create_panitia(request):
         INSERT INTO STATUS_NON_PEMAIN VALUES('{id_panitia}', '{s}')
         """)
 
-    return redirect ("/authentication/login/")
+    return redirect ("/authentication/login/") 
 
