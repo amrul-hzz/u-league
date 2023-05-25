@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib import messages
+from django.http import HttpResponse
+from authentication.views import *
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 def show_dashboard_penonton(request):
+    if is_penonton(request.session['username']) == False:
+        return HttpResponse("bukan penonton")    
     response = {}
     query = f"""
     SELECT * FROM penonton
@@ -42,8 +46,11 @@ def show_dashboard(request):
     return render(request, "dashboard_manajer.html")
 
 def show_dashboard_manajer(request):
+    
     cursor = connection.cursor()
     username_manajer = request.session['username']
+    if is_manajer(username_manajer) == False:
+        return HttpResponse("bukan manajer")
     cursor.execute(f"""
     SELECT id_manajer
     FROM MANAJER
@@ -129,9 +136,12 @@ def show_dashboard_manajer(request):
         "data_tim":data_tim
     })
 
-def show_dashboard_panitia(request):
+def show_dashboard_panitia(request):    
     cursor = connection.cursor()
     username_panitia = request.session['username']
+    if is_panitia(username_panitia) == False:
+        return HttpResponse("bukan panitia")
+        
     cursor.execute(f"""
     SELECT id_panitia, jabatan
     FROM PANITIA

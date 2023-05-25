@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>List Pertandingan</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    table{
+        margin: auto;
+    }
+    
+</style>
+
+<body>
+    {% if {{jenis_user}} == 'penonton'}
+        {% include 'navbar_penonton.html' %}
+    {% else %}
+        {% include 'navbar_manajer.html' %}
+    {% endif %}
+
+    <h1 style="text-align: center;">LIST PERTANDINGAN</h1>
+
+    <table border="1">
+        <head>
+            <tr>
+                <th>Tim Bertanding</th>
+                <th>Stadium</th>
+                <th>Tanggal</th>
+            </tr>
+        </head>
+        <body>
+            {% for item in match_list %}
+            <tr>
+                <th>{{item[0]}} vs The {{item[1]}}</th>
+                <th>{{item[2]}}</th>
+                <th>{{item[3]}} s/d {{item[4]}}</th>
+            </tr>
+        </body>
+    </table>
+
+</body>
+
+{% endblock content %}

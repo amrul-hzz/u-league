@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-from pprint import pprint
+from django.contrib.auth import logout
 
 def landing(request):
     return render(request, 'landing.html')
@@ -45,6 +45,10 @@ def verified(data):
         if(username_status and password_status):
             return True
     return False
+
+def logout_view(request):
+    logout(request)
+    return redirect('login/')
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]

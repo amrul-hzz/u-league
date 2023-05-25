@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>History Rapat</title>
+{% endblock meta %}
+
+{% block content %}
+
+
+<body>
+
+    <h1 style="text-align: center;">LIST RAPAT</h1>
+
+    <table border="1">
+        <head>
+            <tr>
+                <th>Rapat Tim</th>
+                <th>Stadium</th>
+                <th>Waktu</th>
+            </tr>
+        </head>
+        <body>
+            {% for item in rapat_list %}
+            <tr>
+                <th>{{item[0]}} vs The {{item[1]}}</th>
+                <th>{{item[2]}}</th>
+                <th>{{item[3]}}</th>
+            </tr>
+        </body>
+    </table>
+</body>
+
+{% endblock content %}
