@@ -85,9 +85,9 @@
 
     <div class="navbar">
       <a target="_parent" href="/dashboard/dashboard_penonton">Dashboard</a>
-      <a target="_parent" href="../c_pembelian_tiket/BeliTiket.html">Pembelian Tiket</a>
-      <a target="_parent" href="../r_list_pertandingan/InfoListPertandingan.html">List Pertandingan</a>
-      <a target="_parent" id="logout-btn" href="../c_login_register/LoginRegisterPage.html">Logout</a>
+      <a target="_parent" href="/pembelian_tiket/">Pembelian Tiket</a>
+      <a target="_parent" href="/list_pertandingan/">List Pertandingan</a>
+      <a target="_parent" id="logout-btn" href="/authentication/logout/">Logout</a>
     </div>
 
 </body>
