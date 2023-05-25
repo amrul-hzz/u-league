@@ -3,13 +3,14 @@ from django.db import connection
 from authentication.views import *
 
 # Create your views here.
+# show list pemesanan yang belom lewat current date
 def list_pemesanan(request):
     cursor = connection.cursor()
     cursor.execute(f''' 
         select s.nama, p.start_datetime, p.end_datetime
         from stadium s, peminjaman p
-        where s.id_stadium = p.id_stadium
-        order by p.start_datetime desc;
+        where s.id_stadium = p.id_stadium and p.start_datetime >= current_date
+        order by p.start_datetime asc;
     ''')
     pemesanan = cursor.fetchall()
 
@@ -60,6 +61,11 @@ def add_pemesanan(request):
         )
         id_manajer = cursor.fetchone()[0]
 
+        if not tanggal:
+            error_message = "Tanggal harus diisi."
+            messages.error(request, error_message)
+            return redirect("/peminjaman_stadium/pilih_stadium/")
+
         try:
             cursor.execute(f"""
             INSERT INTO PEMINJAMAN (id_manajer, start_datetime, end_datetime, id_stadium)
@@ -67,7 +73,13 @@ def add_pemesanan(request):
             """)
             return redirect("/peminjaman_stadium/")
         except Exception as e:
-            messages.error(request, e)
+            error_message = "Stadium sudah dipesan pada tanggal tersebut."
+            messages.error(request, error_message)
+            return redirect("/peminjaman_stadium/pilih_stadium/")
+    
+    # Handle request method other than POST
+    # return render(request, "nama_template.html")
+
     
     # Handle request method other than POST
     # return render(request, "nama_template.html")

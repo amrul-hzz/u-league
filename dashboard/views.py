@@ -40,6 +40,24 @@ def show_dashboard_penonton(request):
     for data in user_data:
         response['status'] = data['status']
 
+    response['data_pertandingan'] = []
+    query = f"""
+    SELECT DISTINCT ON (p.id_pertandingan, start_datetime) nama as nama_stadium, tp1.nama_tim AS nama_tim_1, tp2.nama_tim AS nama_tim_2, start_datetime, end_datetime 
+    FROM PERTANDINGAN p
+        JOIN STADIUM ON stadium = id_stadium
+        JOIN tim_pertandingan tp1 ON p.id_pertandingan = tp1.id_pertandingan
+        JOIN tim_pertandingan tp2 ON p.id_pertandingan = tp2.id_pertandingan
+    WHERE tp1.nama_tim <> tp2.nama_tim AND start_datetime >= CURRENT_DATE
+    ORDER by start_datetime;
+    """
+    cursor.execute(query)
+    user_data = fetch(cursor)
+    for data in user_data:
+        response['data_pertandingan'].append({'nama_tim_1': data['nama_tim_1'], 'nama_tim_2': data['nama_tim_2'], 
+                                            'nama_stadium':data['nama_stadium'], 'start': data['start_datetime'], 
+                                            'end': data['end_datetime']})
+        response['nama_stadium'] = data['nama_stadium']
+    
     return render(request, 'dashboard_penonton.html', response)
 
 def show_dashboard(request):
