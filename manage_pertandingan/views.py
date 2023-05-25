@@ -47,6 +47,7 @@ def show_manage_pertandingan(request):
             pemenang[i['id_pertandingan']] = skor_pertandingan[1]['nama_tim']
         else:
             pemenang[i['id_pertandingan']] = "-"
+        print(pemenang)
 
     response = {
         'jumlah_pertandingan': jumlah_pertandingan[0]['jumlah_pertandingan'],

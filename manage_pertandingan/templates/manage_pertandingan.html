@@ -65,9 +65,8 @@
                 <div class="content">
                     <div class="announcement">
                         <p>Pertandingan Belum Lengkap!<br>Klik Tombol Next untuk Membuat Pertandingan</p>
-                        <div >
-                            <td><button onclick="window.location.href='#'">Next</button></td>
-                        </div>          
+                        <a href="{% url 'pembuatan_pertandingan:get_avail_stadium' %}">
+                            Submit</a>         
                     </div>
                 </div>
 
