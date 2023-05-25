@@ -1,6 +1,13 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db import connection
+from django.contrib import messages
+
+from django.views.decorators.csrf import csrf_exempt
+from pprint import pprint
 from django.contrib.auth import logout
+import uuid
+
 
 def landing(request):
     return render(request, 'landing.html')
@@ -48,7 +55,7 @@ def verified(data):
 
 def logout_view(request):
     logout(request)
-    return redirect('login/')
+    return redirect('/authentication/login/')
 
 def fetch(cursor):
     columns = [col[0] for col in cursor.description]
@@ -92,3 +99,90 @@ def is_penonton(username_input):
         if(username_input == username['username']):
             return True
     return False
+
+def register_manajer(request):
+    return render (request, 'register_manajer.html')
+
+def create_manajer(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone_number = request.POST['phone_number']
+        email = request.POST['email']
+        address = request.POST['address']
+        id_manajer = uuid.uuid4()
+
+        status = []
+        if 'mahasiswa' in request.POST:
+            status.append('mahasiswa')
+        if 'dosen' in request.POST:
+            status.append('dosen')
+        if 'tendik' in request.POST:
+            status.append('tendik')
+        if 'alumni' in request.POST:
+            status.append('alumni')
+        if 'umum' in request.POST:
+            status.append('umum')
+  
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+        INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+        INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+        INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
+        """)
+
+        for s in status:
+            cursor = connection.cursor()
+            cursor.execute(f""" 
+            INSERT INTO STATUS_NON_PEMAIN VALUES('{id_manajer}', '{s}')
+            """)
+
+        return redirect ("/authentication/login/")
+
+def register_penonton(request):
+    return render (request, 'register_penonton.html')
+
+def create_penonton(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone_number = request.POST['phone']
+        email = request.POST['email']
+        address = request.POST['address']
+        id_penonton = uuid.uuid4()
+
+        status = []
+        if 'mahasiswa' in request.POST:
+            status.append('mahasiswa')
+        if 'dosen' in request.POST:
+            status.append('dosen')
+        if 'tendik' in request.POST:
+            status.append('tendik')
+        if 'alumni' in request.POST:
+            status.append('alumni')
+        if 'umum' in request.POST:
+            status.append('umum')
+  
+    cursor = connection.cursor()
+    cursor.execute(f""" 
+    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+    INSERT INTO NON_PEMAIN VALUES ('{id_penonton}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+    INSERT INTO PENONTON VALUES ('{id_penonton}', '{username}');
+    """)
+
+    for s in status:
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+        INSERT INTO STATUS_NON_PEMAIN VALUES('{id_penonton}', '{s}')
+        """)
+
+    return redirect ("/authentication/login/")
+

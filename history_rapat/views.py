@@ -8,12 +8,43 @@ from authentication.views import *
 def history_rapat(request):
     if is_manajer(request.session['username']) == True:
 
-        # get id
+        # get meeting start time 
         cursor = connection.cursor()
         cursor.execute(f"""
-        SELECT ID_Pertandingan FROM RAPAT;
+        SELECT Datetime FROM RAPAT;
         """)
-        id_pertandingan = str(cursor.fetchall())
+        start = cursor.fetchall()
+        start = [x[0] for x in start]
+
+        # get panitia id then nama_panitia
+        id_panitia = []
+        for s in start:
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT Perwakilan_Panitia FROM RAPAT
+            WHERE Datetime = '{s}';
+            """)
+            id_panitia.append(str(cursor.fetchone()[0]))
+
+        nama_panitia = []
+        for id in id_panitia:
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT Nama_Depan FROM NON_PEMAIN
+            WHERE ID = '{id}';
+            """)
+            nama_panitia.append(cursor.fetchone()[0])
+
+        # get id pertandingan to get playing teams and stadium id then stadium name
+        id_pertandingan = []
+        for i in range (0, len(start)):
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT ID_Pertandingan FROM RAPAT
+            WHERE Datetime = '{start[i]}' AND
+                    Perwakilan_Panitia = '{id_panitia[i]}';
+            """)
+            id_pertandingan.append(str(cursor.fetchone()[0]))
 
         # get playing teams
         team1 = []
@@ -22,47 +53,40 @@ def history_rapat(request):
             cursor = connection.cursor()
             cursor.execute(f"""
             SELECT Nama_Tim FROM TIM_PERTANDINGAN
-            WHERE ID_Pertandingan = {id};
+            WHERE ID_Pertandingan = '{id}';
             """)
-            team1.append(str(cursor.fetchone()))
-            team2.append(str(cursor.fetchone()))
-
+            team1.append(cursor.fetchone()[0])
+            team2.append(cursor.fetchone()[0])
+        
         # get stadium id then stadium names
         stadium_id = []
         for id in id_pertandingan:
             cursor = connection.cursor()
             cursor.execute(f"""
-            SELECT ID_Stadium FROM PERTANDINGAN;
-            WHERE ID_Pertandingan = {id};
+            SELECT Stadium FROM PERTANDINGAN
+            WHERE ID_Pertandingan = '{id}';
             """)
-            stadium_id.append(str(cursor.fetchone()))
+            stadium_id.append(str(cursor.fetchone()[0]))
         
         stadium_name = []
         for id in stadium_id:
             cursor = connection.cursor()
             cursor.execute(f"""
             SELECT Nama FROM STADIUM
-            WHERE ID_Stadium = {id};
+            WHERE ID_Stadium = '{id}';
             """)
-            stadium_name.append(str(cursor.fetchone()))
-
-        # get start 
-        cursor = connection.cursor()
-        cursor.execute(f"""
-        SELECT Datetime FROM RAPAT;
-        """)
-        start = cursor.fetchall()
+            stadium_name.append(str(cursor.fetchone()[0]))
 
         # combine data
         rapat_list = []
         for i in range (0, len(id_pertandingan)):
-            rapat = [team1[i], team2[i], stadium_name[i], start[i]]
+            rapat = [team1[i], team2[i], nama_panitia[i], stadium_name[i], start[i]]
             rapat_list.append(rapat)
 
         context = {
             "rapat_list": rapat_list
         }
 
-        return render(request, 'historry_rapat.html', context)
+        return render(request, 'history_rapat.html', context)
     else:
         return HttpResponse('bukan manajer')

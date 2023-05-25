@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block meta %}
+
 <title>Dashboard</title>
 <script src="https://kit.fontawesome.com/ff49bbe5ae.js" crossorigin="anonymous"></script>
 {% endblock meta %}
 
 {% block content %}
+
+{% include 'navbar_penonton.html' %}
+
 <!-- Profile Card -->
 <div class="container-fluid d-flex align-items-center justify-content-center my-4">
     <div class="card p-3 shadow">

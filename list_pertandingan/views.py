@@ -16,14 +16,48 @@ def list_pertandingan(request):
         cursor.execute(f"""
         SELECT ID_Pertandingan FROM PERTANDINGAN;
         """)
-        id_pertandingan = str(cursor.fetchall())
+        id_pertandingan = cursor.fetchall()
+
+        # get playing teams
+        team1 = []
+        team2 = []
+        for id in id_pertandingan:
+            id = id[0]
+
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT Nama_Tim FROM TIM_PERTANDINGAN
+            WHERE ID_Pertandingan = '{id}';
+            """)
+            team1.append(str(cursor.fetchone()[0]))
+            team2.append(str(cursor.fetchone()[0]))
+
+        # get stadium id then stadium name
+        cursor = connection.cursor()
+        cursor.execute(f"""
+        SELECT Stadium FROM PERTANDINGAN;
+        """)
+        stadium_id = cursor.fetchall()
+
+        stadium_name = []
+        for id in stadium_id:
+            id = id[0]
+
+            cursor = connection.cursor()
+            cursor.execute(f"""
+            SELECT Nama FROM STADIUM
+            WHERE ID_Stadium = '{id}';
+            """)
+            stadium_name.append(cursor.fetchone()[0])
+          
 
         # get start 
         cursor = connection.cursor()
         cursor.execute(f"""
         SELECT Start_Datetime FROM PERTANDINGAN;
         """)
-        start = cursor.fetchall()
+        start = cursor.fetchall()   
+        start = [x[0] for x in start]     
 
         # get end
         cursor = connection.cursor()
@@ -31,35 +65,7 @@ def list_pertandingan(request):
         SELECT End_Datetime FROM PERTANDINGAN;
         """)
         end = cursor.fetchall()
-
-        # get stadium id
-        cursor = connection.cursor()
-        cursor.execute(f"""
-        SELECT ID_Stadium FROM PERTANDINGAN;
-        """)
-        stadium_id = str(cursor.fetchall())
-
-        # get stadium name
-        stadium_name = []
-        for i in range (0, len(id_pertandingan)):
-            cursor = connection.cursor()
-            cursor.execute(f"""
-            SELECT Nama FROM STADIUM
-            WHERE ID_Stadium = {stadium_id[i]};
-            """)
-            stadium_name.append(str(cursor.fetchone()))
-        
-        # get playing teams
-        team1 = []
-        team2 = []
-        for i in range(0, len(id_pertandingan)):
-            cursor = connection.cursor()
-            cursor.execute(f"""
-            SELECT Nama_Tim FROM TIM_PERTANDINGAN
-            WHERE ID_Pertandingan = {id_pertandingan[i]};
-            """)
-            team1.append(str(cursor.fetchall()[0]))
-            team2.append(str(cursor.fetchall()[1]))
+        end = [x[0] for x in end]
 
         # combine data
         match_list = []
@@ -72,7 +78,9 @@ def list_pertandingan(request):
             "match_list": match_list,
         }
 
-        return render(request, 'list_pertandingan.html', context)
+        print("context: ", context)
+
+        return render(request, 'list_pertandingan_r.html', context)
     
     else:
         return HttpResponse('bukan penonton ataupun manajer')

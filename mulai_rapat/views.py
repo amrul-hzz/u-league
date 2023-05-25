@@ -39,6 +39,15 @@ def pilih_pertandingan(request):
     rapat_util = cursor.fetchall()
     cursor.close()
     # print(rapat_util)
+    #cek udah ada rapat atau belum
+    cursor = connection.cursor()
+    cursor.execute(f'''SELECT id_pertandingan FROM RAPAT where id_pertandingan = '{rapat_util[0][0]}';''')
+    rapat = cursor.fetchall()
+    bool_rapat = False #default
+    if len(rapat) > 0: #if there is a rapat
+        bool_rapat = True
+
+    
     pertandingan_list = []
     for i in range(len(pertandingan)):
         pertandingan_list.append({
@@ -49,9 +58,10 @@ def pilih_pertandingan(request):
 
             "id_pertandingan": str(rapat_util[i][0]),
             "id_manajer_tim_a": str(rapat_util[i][1]),
-            "id_manajer_tim_b": str(rapat_util[i][2])
+            "id_manajer_tim_b": str(rapat_util[i][2]),
+            "bool_rapat": bool_rapat
         })
-
+    
     context = {'pertandingan_list': pertandingan_list}
     return render(request, "pilih_pertandingan.html", context)
 
@@ -71,14 +81,14 @@ def rapat_pertandingan(request, pertandingan):
 def create_rapat(request, pertandingan):
     isi_rapat = request.POST.get('isi_rapat')
     #debug console isi_rapat
-    # print(isi_rapat)
+    print(isi_rapat)
 
     # convert string to dict
     dict_data = eval(pertandingan)
 
     cursor = connection.cursor()
-    # error karena blm urus cookiesnya
-    username = request.COOKIES['username']
+    username = request.session.get('username')
+    print (username)
     cursor.execute(f'''
         SELECT id_panitia
         FROM panitia
@@ -86,11 +96,19 @@ def create_rapat(request, pertandingan):
     ''')
     id_panitia = cursor.fetchone()[0]
 
+    #dapetin timestamp
+    cursor.execute(f' SELECT CURRENT_TIMESTAMP;')
+    time = cursor.fetchall()[0][0]
+    
+    #format datetime
+    datetime = f"TO_TIMESTAMP('{time}', 'YYYY-MM-DD HH24:MI:SS.FF')"
+    print(datetime)
+
     cursor.execute(f'''
-        INSERT INTO RAPAT (id_pertandingan, perwakilan_panitia, manajer_tim_a, manajer_tim_b, isi_rapat)
-        VALUES ('{dict_data['id_pertandingan']}', '{id_panitia}', '{dict_data['id_manajer_tim_a']}', '{dict_data['id_manajer_tim_b']}', '{isi_rapat}')
+        INSERT INTO RAPAT (id_pertandingan, datetime, perwakilan_panitia, manajer_tim_a, manajer_tim_b, isi_rapat)
+        VALUES ('{dict_data['id_pertandingan']}', {datetime},'{id_panitia}', '{dict_data['id_manajer_tim_a']}', '{dict_data['id_manajer_tim_b']}', '{isi_rapat}')
     ''')
     
-    return HttpResponseRedirect('/mulai_rapat/')
+    return HttpResponseRedirect('/mulairapat/')
     #kalo dashboard panitia udah selesai return yang ini 
     # return HttpResponseRedirect('/dashboard/')
