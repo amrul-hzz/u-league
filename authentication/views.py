@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib.auth import logout
+import uuid
 
 def landing(request):
     return render(request, 'landing.html')
@@ -92,3 +93,30 @@ def is_penonton(username_input):
         if(username_input == username['username']):
             return True
     return False
+
+def register_manajer(request):
+    return render (request, 'register_manajer.html')
+
+def create_manajer(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone_number = request.POST['phone_number']
+        email = request.POST['email']
+        address = request.POST['address']
+        status = request.POST['status']
+        id_manajer = uuid.uuid4()
+
+       
+    cursor = connection.cursor()
+    cursor.execute(f""" 
+    INSERT INTO USER_SYSTEM VALUES ('{username}', '{password}');
+
+    INSERT INTO NON_PEMAIN VALUES ('{id_manajer}', '{first_name}', '{last_name}', '{phone_number}', '{email}', '{address}');
+
+    INSERT INTO MANAJER VALUES ('{id_manajer}', '{username}');
+    """)
+
+    return redirect ("/authentication/login/")
