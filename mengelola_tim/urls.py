@@ -14,5 +14,4 @@ urlpatterns = [
     path('show_pemain_null/<str:id>', show_pemain_null, name='show_pemain_null'),
     path('add_pemain/', add_pemain, name='add_pemain'),
     path('show_pelatih_null/', show_pelatih_null, name='show_pelatih_null'),
-    # path('add_pelatih/', add_pelatih, name='add_pelatih'),
 ]

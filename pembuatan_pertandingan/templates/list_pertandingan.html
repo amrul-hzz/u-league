@@ -8,6 +8,7 @@
     }
     
     h2 {
+      text-align: center;
       margin-top: 20px;
       margin-bottom: 10px;
     }
@@ -33,8 +34,9 @@
     }
   </style>
 </head>
+
 <body>
-  <h2>List Pertandingan</h2>
+  <h2>LIST PERTANDINGAN</h2>
   <table>
     <thead>
       <tr>
@@ -46,28 +48,28 @@
     </thead>
     <tbody>
       <tr>
-        <td>A vs B</td>
-        <td><button>update</button> <button>delete</button></td>
-        <td>I vs J</td>
-        <td><button>update</button> <button>delete</button></td>
+        <td id="grupa1">{{pertandingans.0.1}} vs {{pertandingans.1.1}}</td>
+        <td id="action1"></td>
+        <td id="grupb1">{{pertandingans.8.1}} vs {{pertandingans.9.1}}</td>
+        <td id="action2"></td>
       </tr>
       <tr>
-        <td>C vs D</td>
-        <td><button>update</button> <button>delete</button></td>
-        <td>K vs L</td>
-        <td><button>update</button> <button>delete</button></td>
+        <td id="grupa2">{{pertandingans.2.1}} vs {{pertandingans.3.1}}</td>
+        <td id="action3"></td>
+        <td id="grupb2">{{pertandingans.10.1}} vs {{pertandingans.11.1}}</td>
+        <td id="action4"></td>
       </tr>
       <tr>
-        <td>E vs F</td>
-        <td><button>update</button> <button>delete</button></td>
-        <td>M vs N</td>
-        <td><button>update</button> <button>delete</button></td>
+        <td id="grupa3">{{pertandingans.4.1}} vs {{pertandingans.5.1}}</td>
+        <td id="action5"></td>
+        <td id="grupb3">{{pertandingans.12.1}} vs {{pertandingans.13.1}}</td>
+        <td id="action6"></td>
       </tr>
       <tr>
-        <td>G vs H</td>
-        <td><button>update</button> <button>delete</button></td>
-        <td>? vs ?</td>
-        <td><button>add</button></td>
+        <td id="grupa4">{{pertandingans.6.1}} vs {{pertandingans.7.1}}</td>
+        <td id="action7"></td>
+        <td id="grupb4">{{pertandingans.14.1}} vs {{pertandingans.15.1}}</td>
+        <td id="action8"></td>
       </tr>
     </tbody>
   </table>
@@ -83,12 +85,89 @@
     </thead>
     <tbody>
       <tr>
-        <td>? vs ?</td>
-        <td><button>add</button></td>
-        <td>? vs ?</td>
-        <td><button>add</button></td>
+        <td id="grupc1">{{pertandingans.16.1}} vs {{pertandingans.17.1}}</td>
+        <td id="action9"></td>
+        <td id="grupd1">{{pertandingans.24.1}} vs {{pertandingans.25.1}}</td>
+        <td id="action10"></td>
+      </tr>
+      <tr>
+        <td id="grupc2">{{pertandingans.18.1}} vs {{pertandingans.19.1}}</td>
+        <td id="action11"></td>
+        <td id="grupd2">{{pertandingans.26.1}} vs {{pertandingans.27.1}}</td>
+        <td id="action12"></td>
+      </tr>
+      <tr>
+        <td id="grupc3">{{pertandingans.20.1}} vs {{pertandingans.21.1}}</td>
+        <td id="action13"></td>
+        <td id="grupd3">{{pertandingans.28.1}} vs {{pertandingans.29.1}}</td>
+        <td id="action14"></td>
+      </tr>
+      <tr>
+        <td id="grupc4">{{pertandingans.22.1}} vs {{pertandingans.23.1}}</td>
+        <td id="action15"></td>
+        <td id="grupd4">{{pertandingans.30.1}} vs {{pertandingans.31.1}}</td>
+        <td id="action16"></td>
       </tr>
     </tbody>
   </table>
+
+  <script>
+    // Get the team cells and action cells
+    var teamCells = document.querySelectorAll('td[id^="grupa"], td[id^="grupb"], td[id^="grupc"], td[id^="grupd"]');
+    var actionCells = document.querySelectorAll('td[id^="action"]');
+  
+    // Loop through each team cell and update the action cell accordingly
+    for (var i = 0; i < teamCells.length; i++) {
+      var teamCell = teamCells[i];
+      var actionCell = actionCells[i];
+      
+      // Check if the team cell contains '? vs ?'
+      if (teamCell.innerHTML.trim() === '? vs ?') {
+        // Create an 'Add' button and set it as the content of the action cell
+        var addButton = document.createElement('button');
+        addButton.textContent = 'Add';
+        actionCell.appendChild(addButton);
+      } else {
+        // Create an 'Update' button and set it as the content of the action cell
+        var updateButton = document.createElement('button');
+        updateButton.textContent = 'Update';
+        actionCell.appendChild(updateButton);
+
+        // Add click event listener to the update button
+        updateButton.addEventListener('click', function() {
+          // Redirect to the desired page
+          window.location.href = '/pembuatan_pertandingan/buat_pertandingan';
+        });
+        
+        // Create a 'Delete' button and set it as the content of the action cell
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        actionCell.appendChild(deleteButton);
+
+        // Add click event listener to the delete button
+        deleteButton.addEventListener('click', function() {
+          
+          var row = this.parentNode.parentNode;
+          var groupId = row.querySelector('td[id^="grupa"]').textContent;
+          var groupAction = row.querySelector('td[id^="action"]');
+
+          // Send an AJAX request or perform form submission to the server-side script
+          var xhr = new XMLHttpRequest();
+          xhr.open('DELETE', '/delete_pertandingan/' + id + '/', true);
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                // Railway deleted successfully
+                groupAction.innerHTML = 'Deleted'; // Update the action cell content
+              } else {
+                // Handle the error condition
+                groupAction.innerHTML = 'Error deleting railway';
+              }
+            }}
+        });
+      }
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Pembelian Tiket</title>
+{% endblock meta %}
+
+{% block content %}
+
+<style>
+    .button-container{
+        text-align: center;
+    }
+</style>
+
+<body>
+    {% include 'navbar_penonton.html' %}
+
+    <h1 style="text-align: center;">PILIH STADIUM</h1><br>
+
+    <form action="/pembelian_tiket/list_waktu_dan_pertandingan/" method="post">
+        {% csrf_token %}
+
+        <label>Stadium:</label>
+        <select id="stadium" name="stadium">
+            {% for item in stadium_list %}
+            <option value="{{item.0}}">{{item.1}}</option>
+            {% endfor %}
+        </select>
+
+        <br>
+        <br>
+
+        <label>Tanggal:</label>
+        <input type="date" id="date" name="date">
+
+        <br>
+        <br>
+
+        <div class="button-container">
+            <input type="submit" value="Next" style="text-align: center;">
+        </div>
+    </form>
+    
+</body>
+
+{% endblock content %}
